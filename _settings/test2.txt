@@ -1,0 +1,12 @@
+Test
+
+ID:
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+FTPLocation:
+MinSetting:
+MaxSetting:
+

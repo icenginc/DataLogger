@@ -1,0 +1,12 @@
+# Sensor Config Template
+
+ID:
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+FTPLocation:
+MinSetting:
+MaxSetting:
+

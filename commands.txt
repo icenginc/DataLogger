@@ -1,0 +1,36 @@
+
+
+Run script every 'x' seconds:
+	watch -n5 'python readADC.py'	(Runs every 5 seconds)
+
+Start pigpiod
+	sudo pigpiod start
+
+Stop pigpiod
+	sudo killall pigpiod
+
+Check pigpiod status
+	pigs pigpv
+
+
+Restart fstab
+	sudo mount -a
+
+Running Script
+	sudo python main.py
+
+
+Check if listening on port 8888
+	sudo lsof -i TCP:8888
+
+Check mount/drive list
+	df -h
+
+
+Find a zombie and kill it
+	kill $(ps -A -ostat,ppid | awk '/[zZ]/{print $2}')
+
+Commiting to git
+	git add -A
+	git commit -m "My Message"
+	git push origin master

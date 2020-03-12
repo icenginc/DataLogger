@@ -1,0 +1,160 @@
+
+body
+{
+background-color: #f4f4f9;
+min-height: 1000px;
+}
+
+#headerInfo
+{
+float:right;
+border: 0px solid;
+margin-right:10px;
+margin-top:10px;
+font-size:12px;
+font-weight:bold;
+}
+
+#timeInfo
+{
+position:absolute;
+top:90px;
+text-align:right;
+}
+
+.SensorDiv
+{
+border: 1px solid;
+width: 250px;
+height: 190px;
+display: inline-block;
+margin-left: 20px;
+background-color: #f7f9fc;
+}
+
+.SensorNumber
+{
+border: 1px solid;
+margin: 2px;
+height: 24px;
+width: 24px;
+float:left;
+padding-top:4px;
+font-weight: bold;
+}
+
+.EnabledCSS
+{
+border: 1px solid;
+margin: 2px;
+height: 24px;
+width: 40px;
+float:right;
+padding-top:4px;
+font-weight: bold;
+cursor: pointer; 
+}
+
+.displayNumber
+{
+
+font-weight: bold;
+font-size: 60px;
+margin-top:40px;
+color: #ba5203;
+cursor: default;
+}
+
+.minNumber
+{
+border: 0px solid;
+height: 10px;
+width: 50px;
+display:inline-block;
+font-size: 14px;
+}
+
+.maxNumber
+{
+border: 0px solid;
+height: 10px;
+width: 50px;
+display:inline-block;
+margin-left:20px;
+font-size: 14px;
+}
+
+.SensorDisplay
+{
+border: 1px solid;
+margin: 2px;
+width: 244px;
+height: 148px;
+}
+
+.SensorConfig
+{
+border: 0px solid;
+margin: 2px;
+height: 30px;
+width:194px;
+display:inline-block;
+}
+
+.selectSensorType
+{
+width: 250px;
+height: 30px;
+margin-left: auto;
+margin-right: auto;
+text-indent: 6px;
+}
+
+
+.LogConfig
+{
+border: 1px solid;
+margin: 2px;
+height: 30px;
+width: 30px;
+display:inline-block;
+float:right;
+background-image: url("_images/settings_logo2.png");
+background-size: 28px 28px;
+background-repeat: no repeat;
+}
+
+.SettingsMenu
+{
+width: 200px;
+z-index:1000;
+
+padding:0px;
+z-index: 10000;
+position: absolute;
+}
+
+.SettingsMenu ul
+{
+list-style-type: none;
+padding:0px;
+cursor: pointer;
+}
+
+.SettingsMenu li
+{
+border: 1px solid;
+background-color: #e0eefc;
+list-style: none;
+width: 100%;
+margin: 0px;
+padding:5px;
+}
+
+
+.Overlay
+{
+z-index: 10000;
+}
+
+

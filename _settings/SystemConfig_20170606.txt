@@ -1,0 +1,86 @@
+# System Config
+
+SystemName: BIO100
+FactoryLocation: Production
+GMT_Time_Zone: PDT
+Server_File_Storage_Location: FTP\Location
+Server_Username: SUsername
+Server_Password: SPassword
+Email_Alert: EmailAlert@icenginc.com
+Email_User: TestUser@icenginc.com
+Email_Password: testPassword
+Log_Generation_Interval: Daily
+#End
+
+# Sensor Config 1
+
+ID: 1
+SensorType: Temperature
+SensorUnit: C
+Gain: 2
+Offset: 0
+LogInterval: 30s
+MinSetting: 12
+MaxSetting: 29
+#End
+
+# Sensor Config 2
+
+ID: 2
+SensorType: Humidity
+SensorUnit: %
+Gain: 1
+Offset: 0
+LogInterval:
+MinSetting: 45
+MaxSetting: 85
+#End
+
+# Sensor Config 3
+
+ID: 3
+SensorType: Pressure
+SensorUnit: Pa
+Gain: 1
+Offset: 0
+LogInterval:
+MinSetting: 18
+MaxSetting: 24
+#End
+
+# Sensor Config 4
+
+ID: 4
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+#End
+
+# Sensor Config 5
+
+ID: 5
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+#End
+
+# Sensor Config 6
+
+ID: 6
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+#End
+

@@ -1,0 +1,93 @@
+# System Config
+
+SystemName: BIO101
+FactoryLocation: Burn-in1
+GMTTimeZone: PDT
+LogServerLocation: \\BURN-IN_SERVER\Engineering Burn-in\AndrewC\_DataLogger\_software\_TempCSV
+ServerUsername: SUsername
+ServerPassword: SPassword
+EmailAlert: EmailAlerts@icenginc.com
+EmailUser: TestUser@icenginc.com
+EmailPassword: testPassword
+LogGenerationInterval: Daily
+LogInterval: 30s
+#End
+
+# Sensor Config 1
+
+ID: 1
+SensorType: Temperature
+SensorUnit: C
+Gain: 1
+Offset: 0
+LogInterval: 30s
+MinSetting: 22
+MaxSetting: 29
+LogFileChannelAssignment: 1
+#End
+
+# Sensor Config 2
+
+ID: 2
+SensorType: Humidity
+SensorUnit: %
+Gain: 1
+Offset: 0
+LogInterval:
+MinSetting: 45
+MaxSetting: 85
+LogFileChannelAssignment: 2
+#End
+
+# Sensor Config 3
+
+ID: 3
+SensorType: Pressure
+SensorUnit: Pa
+Gain: 1
+Offset: 0
+LogInterval:
+MinSetting: 18
+MaxSetting: 24
+LogFileChannelAssignment: 3
+#End
+
+# Sensor Config 4
+
+ID: 4
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+LogFileChannelAssignment: 4
+#End
+
+# Sensor Config 5
+
+ID: 5
+SensorType: SHT31-D
+SensorUnit: C,% RH
+Gain: 1.0
+Offset: 0
+LogInterval:
+MinSetting: 20,70
+MaxSetting: 23,96
+LogFileChannelAssignment: 5,6
+#End
+
+# Sensor Config 6
+
+ID: 6
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+LogFileChannelAssignment: 7
+#End
+

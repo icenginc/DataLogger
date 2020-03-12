@@ -1,0 +1,16 @@
+SystemName:
+FactoryLocation:
+GMT Time Zone:
+Server File Storage Location:
+Server Username:
+Server Password:
+Email Alert:
+Emaul User:
+Email Password:
+Log Generation Interval:
+Data Logging Interval:
+Channel Min Value:
+Channel Max Value:
+Sensor Gain:
+Sensor Offset:
+Sensor Unit:

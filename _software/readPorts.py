@@ -1,0 +1,2 @@
+
+combine readHumidifer and readADC

@@ -1,0 +1,110 @@
+# System Config
+
+SystemName: Nabeelz-PC
+FactoryLocation: ICE-SJC
+GMTTimeZone: PDT
+LogServerLocation: \\BURN-IN_SERVER\Engineering Burn-in\AndrewC\_DataLogger\_software\_TempCSV
+ServerUsername: SUsername
+ServerPassword: SPassword
+EmailAlert: EmailAlerts@icenginc.com
+EmailUser: TestUser@icenginc.com
+EmailPassword: testPassword
+LogGenerationInterval: Weekly
+LogInterval: 300s
+#End
+
+# Sensor Config 1
+
+ID: 1
+SensorType: PTS1206100_RTD
+SensorUnit: C
+Gain: 1.0
+Offset: 0.0
+LogInterval: 
+MinSetting: 0
+MaxSetting: 100
+LogFileChannelAssignment: 1
+Enabled: Yes
+#End
+
+# Sensor Config 2
+
+ID: 2
+SensorType: PTS1206100_RTD
+SensorUnit: %
+Gain: 1.0
+Offset: 0.0
+LogInterval: 
+MinSetting: 0
+MaxSetting: 100
+LogFileChannelAssignment: 2
+Enabled: Yes
+#End
+
+# Sensor Config 3
+
+ID: 3
+SensorType: -Unused-
+SensorUnit: 
+Gain: 1.0
+Offset: 0.0
+LogInterval: 
+MinSetting: 
+MaxSetting: 
+LogFileChannelAssignment: 
+Enabled: No
+#End
+
+# Sensor Config 4
+
+ID: 4
+SensorType:
+SensorUnit:
+Gain:
+Offset:
+LogInterval:
+MinSetting:
+MaxSetting:
+LogFileChannelAssignment: 4
+Enabled: No
+#End
+
+# Sensor Config 5
+
+ID: 5
+SensorType: -Unused-
+SensorUnit: 
+Gain: 1.0
+Offset: 0.0
+LogInterval: 
+MinSetting: 
+MaxSetting: 
+LogFileChannelAssignment: 
+Enabled: No
+#End
+
+# Sensor Config 6
+
+ID: 6
+SensorType:
+SensorUnit:
+Gain: 1.0
+Offset: 0.0
+LogInterval:
+MinSetting:
+MaxSetting:
+LogFileChannelAssignment: 6
+Enabled: No
+#End
+
+# Run Config
+
+Configuration: Active High
+Enabled: Yes
+#End
+
+# Alarm Config
+
+Configuration: Active Low
+Enabled: Yes
+#End
