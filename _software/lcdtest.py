@@ -92,7 +92,7 @@ def readFromDatabase(channel):
         cur = con.cursor()
         cur.execute("SELECT * FROM tempData WHERE inputType = '" + inputType + "'")
         data = cur.fetchone()
-    except lite.Error, e:
+    except lite.Error as e:
         print("Error: " + e)
     finally:
         if con:
