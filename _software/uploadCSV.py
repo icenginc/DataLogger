@@ -603,7 +603,8 @@ def main(logGenerationInterval):
     filePath = "/mnt/EquipmentLogs/"
     #doesCSVFileExist(filePath, fileName)
     if canAccessServer(filePath):
-        filePathWSubfolder = filePath + dictionaryData["system"] + "/" + doesSubFolderExist(filePathWSubfolder)
+        filePathWSubfolder = filePath + dictionaryData["system"] + "/"
+        doesSubFolderExist(filePathWSubfolder)
         checkUnsavedData(fileName, filePathWSubfolder, logGenerationInterval)
         tempDictionaryDate = dictionaryData['date'] + " " + dictionaryData['time']
         print("Last Uploaded Date: " + lastUploadDate)
