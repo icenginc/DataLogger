@@ -26,7 +26,7 @@ def strip_output(input):
     #input = input.replace("Temperature: ", "")
     input =input[13:-3]
     return input
-	#see link for below 2 equations : https://www.1728.org/relhum.htm
+    #see link for below 2 equations : https://www.1728.org/relhum.htm
 
 def calculate_const(input):
     numerator = float(input)*17.502
