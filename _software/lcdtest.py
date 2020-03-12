@@ -69,7 +69,7 @@ def writeText(text):
         logging.debug("lcdTest.py:writeText, Error Writing LCD Text")
         print("lcdTest.py:writeText, Error Writing LCD Text")
 
-def getChannelString(channel):\
+def getChannelString(channel):
     if channel == "1":
         return "ADC 1"
     elif channel == "2":
