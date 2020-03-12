@@ -189,7 +189,7 @@ def main():
     Ex: python readHumidifier.py 2\t Writes to tempTable in database"""
     #but there is only one table?
     dictionaryData = uploadCSV.getAllDictionaries()
-    print dictionaryData['enabled5']
+    print(dictionaryData['enabled5'])
     select=1
     if dictionaryData['enabled5'] == "Yes":
         select=0
