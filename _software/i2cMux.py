@@ -42,7 +42,7 @@ def readI2CMux(selectedPort):
         #print("I2C Mux Sent: " + hex(controlByte))
     except Exception as e:
         print("Error Configuring I2C Mux")
-    print(e)
+        print(e)
 
 def main():
     """This is the main function"""
