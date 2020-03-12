@@ -1,9 +1,7 @@
-
 import time
 import LCDLibrary
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
-
 
 button1 = 23
 button2 = 24
@@ -29,7 +27,7 @@ def action_button1(channel):
     time.sleep(0.5)
 
 def action_button2(channel):
-        
+
     global tempCounter
     tempCounter += 1
 
@@ -37,7 +35,7 @@ def action_button2(channel):
     LCDLibrary.writeText("CCounter: " + str(tempCounter))
 
     time.sleep(0.5)
-    
+
 GPIO.add_event_detect(button1, GPIO.FALLING, callback=action_button1)
 GPIO.add_event_detect(button2, GPIO.FALLING, callback=action_button2)
 
@@ -53,8 +51,3 @@ GPIO.cleanup()
 
 LCDLibrary.initLCD()
 LCDLibrary.writeText("EEND")
-
-
-
-
-    
