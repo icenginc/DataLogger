@@ -27,6 +27,7 @@ def strip_output(input):
     return input
 	#see link for below 2 equations : https://www.1728.org/relhum.htm
 
+
 def calculate_const(input):
     numerator = float(input)*17.502
     denominator = float(input)+240.97
