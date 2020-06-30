@@ -99,7 +99,7 @@ def checkGPIOButtons():
         action_button2(button2)
     elif GPIO.input(button3):
         action_button3(button3)
-    time.sleep(0.3)
+    #time.sleep(0.3)
 
 def startLogger():
     date = datetime.date.today()
