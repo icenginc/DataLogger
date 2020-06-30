@@ -34,7 +34,7 @@ function createSensorDiv($sensorNumber=0)
 		<div class="SensorNumber">'.$sensorNumber.'</div>
 		<div class="EnabledCSS" id="enabled_'.$sensorNumber.'">'.$enabledValue.'</div>
 		<div class="SensorDisplay" id="sensorDisplay'.$sensorNumber.'">
-			<div class="displayNumber" id="displayNumber'.$sensorNumber.'">125C</div>
+			<div class="displayNumber" id="displayNumber'.$sensorNumber.'">Loading</div>
 			<div class="minNumber" id="minSetting'.$sensorNumber.'">Min: '.number_format((float)$min,1).$sensorObject->SensorUnit.'</div>
 			<div class="maxNumber" id="maxSetting'.$sensorNumber.'">Max: '.number_format((float)$max,1).$sensorObject->SensorUnit.'</div>
 		</div>
