@@ -601,6 +601,7 @@ def main(logGenerationInterval):
     #exit()
     #filePath = "/mnt/BI_TEST/AndrewC/_DataLogger/_software/_TempCSV/"
     filePath = "/mnt/EquipmentLogs/"
+    filePathLocal = "/home/pi/Documents/DataLogger/_logs/"
     #doesCSVFileExist(filePath, fileName)
     if canAccessServer(filePath):
         filePathWSubfolder = filePath + dictionaryData["system"] + "/"
@@ -610,8 +611,12 @@ def main(logGenerationInterval):
         print("Last Uploaded Date: " + lastUploadDate)
         print("Dictionary Date: " + tempDictionaryDate)
         if lastUploadDate != tempDictionaryDate:
-            print("Saving")
-            saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
+            try:
+                print("Saving to database..")
+                saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
+            except:
+                print("Saving to local drive..")
+                saveCSVFile(dictionaryData, filePathLocal, fileName)
         else:
             print("Same Date: No Need to Upload")
     else:
