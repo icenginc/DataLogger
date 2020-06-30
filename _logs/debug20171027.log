@@ -1,8 +1,0 @@
-10/27/2017 04:34:16 PM, INFO - START LOGGING
-10/27/2017 04:34:16 PM, DEBUG - Restart I2C
-12/08/2017 12:53:18 PM, DEBUG - LCD Write Error
-12/21/2017 04:58:15 PM, DEBUG - lcdTest.py:initLCD, Error Initializing LCD
-12/21/2017 04:58:21 PM, DEBUG - LCD Write Error
-01/12/2018 10:43:08 AM, DEBUG - lcdTest.py:initLCD, Error Initializing LCD
-01/25/2018 01:14:23 PM, DEBUG - LCD Write Error
-02/01/2018 04:00:40 PM, DEBUG - LCD Write Error
