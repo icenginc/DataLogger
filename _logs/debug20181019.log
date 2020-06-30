@@ -1,9 +1,0 @@
-10/19/2018 09:10:23 AM, INFO - START LOGGING
-10/19/2018 09:10:23 AM, DEBUG - Restart I2C
-10/19/2018 01:35:46 PM, DEBUG - LCD Write Error
-10/19/2018 01:36:26 PM, DEBUG - lcdTest.py:initLCD, Error Initializing LCD
-10/19/2018 01:36:30 PM, DEBUG - LCD Write Error
-10/19/2018 04:08:22 PM, DEBUG - lcdTest.py:writeText2, Error Writing LCD Text2
-10/19/2018 04:08:23 PM, DEBUG - LCD Write Error
-10/19/2018 04:10:45 PM, DEBUG - LCD Write Error
-10/19/2018 04:10:52 PM, DEBUG - LCD Write Error
