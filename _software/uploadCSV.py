@@ -6,6 +6,7 @@ import glob
 from datetime import datetime, timedelta
 
 lastUploadDate = ""
+filePathLocal = "/home/pi/Documents/DataLogger/_logs/"
 
 def doesCSVFileExist(filePath, filename):
     value = False
@@ -182,7 +183,12 @@ def checkUnsavedData(fileName, filePath, logGenerationInterval):
             fileName = tempDictionaryDataFinal['system'].replace("System:","") + "_" + \
                 sunday + "_" + \
                 editedTime[:4] + ".csv"
-        saveCSVFile(tempDictionaryDataFinal, filePath, fileName)
+        try:
+            saveCSVFile(tempDictionaryDataFinal, filePath, fileName)
+        except:
+            print("Could not save to database. Saving to local drive.")
+            saveCSVFile(tempDictionaryDataFinal, filePathLocal, fileName)
+            
         lastUploadDate = tempDictionaryDataFinal['date'] + " " + tempDictionaryDataFinal['time']
 
 def saveCSVFile(dictionaryData, filePath, fileName):
@@ -601,7 +607,6 @@ def main(logGenerationInterval):
     #exit()
     #filePath = "/mnt/BI_TEST/AndrewC/_DataLogger/_software/_TempCSV/"
     filePath = "/mnt/EquipmentLogs/"
-    filePathLocal = "/home/pi/Documents/DataLogger/_logs/"
     #doesCSVFileExist(filePath, fileName)
     if canAccessServer(filePath):
         filePathWSubfolder = filePath + dictionaryData["system"] + "/"
