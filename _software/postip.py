@@ -26,7 +26,7 @@ def ipfileexists(dbpathfull,dbpathfullip,ipaddress,systemName):
     try:
         print("Creating/updating IP text.")
         z=open(dbpathfullip, "w+")
-        z.write("IP Address: ["+ipaddress+"], Date:"+str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        z.write("IP Address: ["+ipaddress+"], Date: "+str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     except:
         print("Could not update IP text.")
 
