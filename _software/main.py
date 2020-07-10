@@ -13,6 +13,7 @@ import socket
 import atexit
 import logging
 import i2cMux
+import postip
 #import LCDLibrary
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
@@ -143,6 +144,7 @@ def main():
     
     ipAddress = getIPAddress()
     ipAddress = (ipAddress).strip()
+    postip.ippost(ipAddress, dictionaryData['system'])
     #print(ipAddress)
     lcdtest.writeText2(ipAddress)
     #logInterval = int(re.findall("\d+.", dictionaryData['logInterval'])[0].replace("s",""))
