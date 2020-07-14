@@ -14,6 +14,7 @@ import atexit
 import logging
 import i2cMux
 import postip
+import uploadCSVlocal
 #import LCDLibrary
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
@@ -47,25 +48,27 @@ def action_button1(empty):
     lcdtest.writeText(systemName)
     ipAddress = (ipAddress).strip()
     lcdtest.writeText2(ipAddress)
-    time.sleep(0.5)
+    #time.sleep(0.5)
 
 def action_button2(empty):
     print("Action Button 2")
-    returnData = lcdtest.readFromDatabase("5")
-    temp = returnData[4]
-    data = dictionaryData['data5']
-    unit = dictionaryData['unit5']
-    if temp.find(":") != -1 and unit.find(",") != -1:
-        temp2 = temp.split(":")
-        tempT = temp2[0]
-        tempH = temp2[1]
-        temp3 = unit.split(",");
-        tempUnitT = temp3[0]
-        tempUnitH = temp3[1]
-        tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT + ", " + str("{0:.1f}".format(float(tempH))) + tempUnitH
-    print(tempFinal)
-    lcdtest.writeText(tempFinal)
-    time.sleep(0.5)
+    #returnData = lcdtest.readFromDatabase("5")
+    #temp = returnData[4]
+    #data = dictionaryData['data5']
+    #unit = dictionaryData['unit5']
+    #if temp.find(":") != -1 and unit.find(",") != -1:
+    #    temp2 = temp.split(":")
+    #    tempT = temp2[0]
+    #    tempH = temp2[1]
+    #    temp3 = unit.split(",");
+    #    tempUnitT = temp3[0]
+    #    tempUnitH = temp3[1]
+    #    tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT + ", " + str("{0:.1f}".format(float(tempH))) + tempUnitH
+    #print(tempFinal)
+    #lcdtest.writeText(tempFinal)
+    uploadCSVlocal.main(dictionaryData['system'])
+    lcdtest.writeText("Uploaded local files")
+    #time.sleep(0.5)
 
 def action_button3(empty):
     lcdtest.initLCD()
