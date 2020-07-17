@@ -4,7 +4,7 @@
 	function runScript2()
 	{
 		$scriptName = "checkSystemStatus.py";
-		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/".$scriptName);
+		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/website/".$scriptName);
 		//echo "/home/pi/Documents/DataLogger/_software/".$scriptName;
 		$command = "python ".$command;
 		
