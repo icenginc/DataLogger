@@ -55,7 +55,8 @@ def CVD_equation(resistance):
     #alpha = .00385
     #gamma = 1.49
     a = -.00000057365 #calc from constants
-    b = .003907365 #calc from constants
+    b = 0.00392
+    #b = .003907365 #calc from constants OLD
     d = b**2-4*a*c # discriminant
     if d < 0:
         print ("This equation has no real solution")
