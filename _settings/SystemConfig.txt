@@ -1,6 +1,6 @@
 # System Config
 
-SystemName: Nabeelz-PC
+SystemName: TestPi-PC
 FactoryLocation: ICE-SJC
 GMTTimeZone: PDT
 LogServerLocation: \\BURN-IN_SERVER\Engineering Burn-in\AndrewC\_DataLogger\_software\_TempCSV
