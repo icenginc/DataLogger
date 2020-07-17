@@ -46,7 +46,7 @@
 	function runScript($arguments)
 	{
 		$scriptName = "updateWebsiteSettings.py";
-		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/".$scriptName);
+		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/website/".$scriptName);
 		//echo "/home/pi/Documents/DataLogger/_software/".$scriptName;
 		$command = "python ".$command." ".$arguments;
 		
