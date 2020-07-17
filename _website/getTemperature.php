@@ -9,7 +9,7 @@
 	{
 	
 		$scriptName = "adc.py";
-		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/".$scriptName);
+		$command = escapeshellcmd("/home/pi/Documents/DataLogger/_software/website/".$scriptName);
 		//echo "/home/pi/Documents/DataLogger/_software/".$scriptName."<br />";
 		$command = "python ".$command;
 		exec($command, $output, $status);
