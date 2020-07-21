@@ -15,6 +15,7 @@ FS = 0.5 * VREF
 opAmpGain = 100.0
 current = 100 / 1000000.0
 #offset = - 3.40
+offset = 0
 twoToTheTwentyFour = 16777216 # 2^24
 
 def readRTDTable(resistance):
@@ -95,7 +96,7 @@ def convertADC(adcReading):
     #temperature = readRTDTable(RTDResistance)
     #print RTDResistance
     temperature = CVD_equation(RTDResistance)
-    print("Temperature Unconverted: " + str(temperature) + "C")
+    print("Temperature Unadjusted: " + str(temperature) + "C")
     return temperature
 
 def getChannel(channel):
