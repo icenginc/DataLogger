@@ -22,12 +22,12 @@ def main():
 def strip_output(input):
     temparray = input.splitlines()
     for a in temparray:
-        if(a.find("Temperature: ") > -1):
+        if(a.find("AdjustedTemperature: ") > -1):
             ftemp=a
     ftemp = ftemp.replace("\n", "")
     ftemp = ftemp.replace("C", "")
-    ftemp = ftemp.replace("Temperature: ", "")
-    return input
+    ftemp = ftemp.replace("AdjustedTemperature: ", "")
+    return ftemp
     #see link for below 2 equations : https://www.1728.org/relhum.htm
 
 def calculate_const(input):
