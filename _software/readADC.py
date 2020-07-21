@@ -14,7 +14,7 @@ VREF = 3.3
 FS = 0.5 * VREF
 opAmpGain = 100.0
 current = 100 / 1000000.0
-offset = - 3.40
+#offset = - 3.40
 twoToTheTwentyFour = 16777216 # 2^24
 
 def readRTDTable(resistance):
@@ -95,7 +95,7 @@ def convertADC(adcReading):
     #temperature = readRTDTable(RTDResistance)
     #print RTDResistance
     temperature = CVD_equation(RTDResistance)
-    print("Temperature: " + str(temperature) + "C")
+    print("Unadjusted Temperature: " + str(temperature) + "C")
     return temperature
 
 def getChannel(channel):
@@ -153,12 +153,12 @@ def readADC(channel, dictionaryData):
         pi.i2c_close(handle)
         time.sleep(0.1)
         pi.stop()
+        print("Adjusted Temperature: " + str(temperature) + "C")
     except Exception as e:
-        print("readADC.py:readADC, Error Reading ADC")
+        print("Adjusted Temperature: 0C")
         print(e)
         #os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
-    #print("Temperature: " + str(temperature) + "C")
     return temperature
 
 # For tempData Table
