@@ -20,11 +20,13 @@ def main():
     print(humidity)
 
 def strip_output(input):
-    input = input.splitlines()[3]
-    #input = input.replace("\n", "")
-    #input = input.replace("C", "")
-    #input = input.replace("Temperature: ", "")
-    input = input[13:-3]
+    temparray = input.splitlines()
+    for a in temparray:
+        if(a.find("Temperature: ") > -1):
+            ftemp=a
+    ftemp = ftemp.replace("\n", "")
+    ftemp = ftemp.replace("C", "")
+    ftemp = ftemp.replace("Temperature: ", "")
     return input
     #see link for below 2 equations : https://www.1728.org/relhum.htm
 
