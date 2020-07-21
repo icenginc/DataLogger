@@ -26,7 +26,7 @@ def strip_output(input):
             ftemp=a
     ftemp = ftemp.replace("\n", "")
     ftemp = ftemp.replace("C", "")
-    ftemp = ftemp.replace("AdjustedTemperature: ", "")
+    ftemp = ftemp.replace("Adjusted Temperature: ", "")
     return ftemp
     #see link for below 2 equations : https://www.1728.org/relhum.htm
 
