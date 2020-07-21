@@ -22,7 +22,7 @@ def main():
 def strip_output(input):
     temparray = input.splitlines()
     for a in temparray:
-        if(a.find("AdjustedTemperature: ") > -1):
+        if(a.find("Adjusted Temperature: ") > -1):
             ftemp=a
     ftemp = ftemp.replace("\n", "")
     ftemp = ftemp.replace("C", "")
