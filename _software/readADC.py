@@ -95,7 +95,7 @@ def convertADC(adcReading):
     #temperature = readRTDTable(RTDResistance)
     #print RTDResistance
     temperature = CVD_equation(RTDResistance)
-    print("Unadjusted Temperature: " + str(temperature) + "C")
+    print("RawTemperature: " + str(temperature) + "C")
     return temperature
 
 def getChannel(channel):
@@ -153,9 +153,9 @@ def readADC(channel, dictionaryData):
         pi.i2c_close(handle)
         time.sleep(0.1)
         pi.stop()
-        print("Adjusted Temperature: " + str(temperature) + "C")
+        print("Temperature: " + str(temperature) + "C")
     except Exception as e:
-        print("Adjusted Temperature: 0C")
+        print("Temperature: 0C")
         print(e)
         #os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
