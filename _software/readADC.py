@@ -95,7 +95,7 @@ def convertADC(adcReading):
     #temperature = readRTDTable(RTDResistance)
     #print RTDResistance
     temperature = CVD_equation(RTDResistance)
-    print("RawTemperature: " + str(temperature) + "C")
+    print("Temperature Unconverted: " + str(temperature) + "C")
     return temperature
 
 def getChannel(channel):
