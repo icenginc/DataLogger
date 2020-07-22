@@ -12,55 +12,16 @@ i2cMuxAddress = 0x75
 adcAddress = 0x16
 VREF = 3.3
 FS = 0.5 * VREF
-opAmpGain = 100.0
+opAmpGain = 101.0
 current = 100 / 1000000.0
 #offset = - 3.40
 offset = 0
 twoToTheTwentyFour = 16777216 # 2^24
 
-def readRTDTable(resistance):
-    rtdTemperature = ["-55","-50","-45","-40","-35","-30","-25","-20","-15","-10","-5","0",
-                      "5","10","15","20","25","30","35","40","45","50","55","60","65",
-                      "70","71","72","73","74","75","76","77","78","79",
-                      "80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95",
-                      "100","105","110","115","120","125","130","135","140","145","150","155"]
-    rtdResistance = ["77.94","79.96","81.98","83.99","86.01","88.01","90.02","92.02","94.02","96.02","98.01","100",
-                     "101.99","103.97","105.95","107.93","109.90","111.88","113.84","115.81","117.77","119.73","121.69","123.64","125.59",
-                     "127.54","127.93","128.32","128.71","129.09","129.48","129.87","130.26","130.65","131.04",
-                     "131.42","131.81","132.20","132.59","132.98","133.36","133.75","134.14","134.52","134.91","135.30","135.68","136.07","136.46","136.84","137.23",
-                     "139.16","141.09","143.01","144.93","146.85","148.76","150.67","152.58","154.49","156.39","158.29","160.19"]
-    tempCounter = 0
-    for line in rtdResistance:
-        tempCounter += 1
-    lowerResistance = 0.0
-    upperResistance = 0.0
-    lowerTemp = 0.0
-    upperTemp = 0.0
-    counter = 0
-    lowerIndex = 0
-    tempCounter = 0
-    for resistanceValue in rtdResistance:
-        if float(resistance) > float(resistanceValue):
-            lowerIndex = tempCounter
-        tempCounter += 1
-    if lowerIndex < len(rtdResistance) - 1:
-        lowerResistance = rtdResistance[lowerIndex]
-        upperResistance = rtdResistance[lowerIndex+1]
-        lowerTemp = rtdTemperature[lowerIndex]
-        upperTemp = rtdTemperature[lowerIndex+1]
-        temperature = ( (float(resistance) - float(lowerResistance)) / (float(upperResistance) - float(lowerResistance)) ) * (float(upperTemp) - float(lowerTemp)) + float(lowerTemp)
-        return temperature
-    return 0
-
 def CVD_equation(resistance):
     c = 1 - (resistance/100) #100 resistance at 0 degrees
-    #A = alpha + (alpha*sigma)/100
-    #B = -(alpha*sigma)/10000
-    #alpha = .00385
-    #gamma = 1.49
     a = -.00000057365 #calc from constants
     b = 0.00392
-    #b = .003907365 #calc from constants OLD
     d = b**2-4*a*c # discriminant
     if d < 0:
         print ("This equation has no real solution")
@@ -92,9 +53,6 @@ def convertADC(adcReading):
     #print(voltageAcrossRTD)
     #print("ADC Voltage: " + str(toVoltage))
     RTDResistance = (toVoltage / current)  + offset
-    #print("RTD Resistance: " + str(RTDResistance))
-    #temperature = readRTDTable(RTDResistance)
-    #print RTDResistance
     temperature = CVD_equation(RTDResistance)
     print("Raw Temperature: " + str(temperature) + "C")
     return temperature
