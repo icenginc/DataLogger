@@ -18,26 +18,38 @@ current = 100 / 1000000.0
 offset = 0
 twoToTheTwentyFour = 16777216 # 2^24
 
-def CVD_equation(resistance):
-    c = 1 - (resistance/100) #100 resistance at 0 degrees
-    a = -.00000057365 #calc from constants
-    b = 0.00392
-    d = b**2-4*a*c # discriminant
-    if d < 0:
-        print ("This equation has no real solution")
-        return 0;
-    elif d == 0:
-        x = (-b+math.sqrt(b**2-4*a*c))/2*a
-        #print ("This equation has one solutions: "), x
-        return x;
-    else:
-        x1 = (-b+math.sqrt((b**2)-(4*(a*c))))/(2*a)
-        x2 = (-b-math.sqrt((b**2)-(4*(a*c))))/(2*a)
-        #print ("This equation has two solutions: ", x1, " or", x2)
-        if (x1 > 0):
-            return x1
-        elif(x2 > 0):
-            return x2
+
+#-----------------7/22/2020 Removed RTD table, and no longer using CDV_Equation function.
+
+#def CVD_equation(resistance):
+#    c = 1 - (resistance/100) #100 resistance at 0 degrees
+#    a = -.00000057365 #calc from constants
+#    b = 0.00392
+#    d = b**2-4*a*c # discriminant
+#    if d < 0:
+#        print ("This equation has no real solution")
+#        return 0;
+#    elif d == 0:
+#        x = (-b+math.sqrt(b**2-4*a*c))/2*a
+#        #print ("This equation has one solutions: "), x
+#        return x;
+#    else:
+#        x1 = (-b+math.sqrt((b**2)-(4*(a*c))))/(2*a)
+#        x2 = (-b-math.sqrt((b**2)-(4*(a*c))))/(2*a)
+#        #print ("This equation has two solutions: ", x1, " or", x2)
+#        if (x1 > 0):
+#            return x1
+#        elif(x2 > 0):
+#            return x2
+
+def resistancetotemp(resistance):
+    a = 0.00392 #standard coeff
+    r0 = 100 #resistance at 0C
+    
+    numer = (resistance/r0) -1
+    temper = numer/a
+    #derived from equation: RTemp=R0(1+(a*temperature))
+    return temper
 
 def convertADC(adcReading):
     #print binascii.hexlify(adcReading)
@@ -53,7 +65,8 @@ def convertADC(adcReading):
     #print(voltageAcrossRTD)
     #print("ADC Voltage: " + str(toVoltage))
     RTDResistance = (toVoltage / current)  + offset
-    temperature = CVD_equation(RTDResistance)
+    #temperature = CVD_equation(RTDResistance)
+    temperature=resistancetotemp(RTDResistance)
     print("Raw Temperature: " + str(temperature) + "C")
     return temperature
 
