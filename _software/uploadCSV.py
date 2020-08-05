@@ -225,7 +225,7 @@ def saveCSVFile(dictionaryData, filePath, fileName):
         secondLine = "System: " + dictionaryData['system'] + ",SensorType: " + \
             dictionaryData['sensorType'] + ",Min: " + dictionaryData['min1'] + ",Max: " + \
             dictionaryData['max1'] + ",Log Interval: " + dictionaryData['logIntervalMain'] + \
-            ",Save Duration: " + dictionaryData['saveDuration'] + "\n"
+            ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
         dataLine = getDataLine(dictionaryData)
         writeFile.write(firstLine)
         writeFile.write(secondLine)
