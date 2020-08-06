@@ -14,7 +14,7 @@ import atexit
 import logging
 import i2cMux
 import postip
-import uploadCSVlocal
+#import uploadCSVlocal
 #import LCDLibrary
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
@@ -66,8 +66,6 @@ def action_button2(empty):
     #    tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT + ", " + str("{0:.1f}".format(float(tempH))) + tempUnitH
     #print(tempFinal)
     #lcdtest.writeText(tempFinal)
-    uploadCSVlocal.main(dictionaryData['system'])
-    lcdtest.writeText("Uploaded local files")
     #time.sleep(0.5)
 
 def action_button3(empty):
