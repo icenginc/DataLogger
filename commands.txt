@@ -1,5 +1,3 @@
-
-
 Run script every 'x' seconds:
 	watch -n5 'python readADC.py'	(Runs every 5 seconds)
 
@@ -34,3 +32,16 @@ Commiting to git
 	git add -A
 	git commit -m "My Message"
 	git push origin master
+
+Check for running processes
+	ps axg | grep main.py
+
+Overwrite a pull request
+	git fetch –all
+	git reset –hard origin/master
+
+	Note: Be sure to change the “System Name” in the /DataLogger/_settings/SystemConfig.txt file
+
+	Note: Also make sure the SystemConfig.txt and SystemConfig_temp.txt file are both set to permission: 777
+
+		Ex: sudo chmod 777 SystemConfig.txt
