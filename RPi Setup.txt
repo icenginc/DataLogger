@@ -1,0 +1,205 @@
+Raspberry Pi DataLogger Setup
+____________________________________________
+Update Notes
+
+
+
+
+____________________________________________
+Step 1a. Install Required Modules using the installer
+
+1. Change into directory “DataLogger/_installer”, with command:
+	cd DataLogger/_installer
+
+2. Run the command:
+	bash installModules.sh
+Note: Reply Y, A, ..etc when prompted if you want to install all items
+
+____________________________________________
+Step 1b. Install Required Modules manually
+
+1. Update Raspberry Pi software, with commands:
+	sudo apt-get update
+	sudo apt-get dist-upgrade
+
+2. Install modules:
+
+	a. i2cdetect (make sure Raspberry Pi is configured to use the I2C Interface)
+		sudo apt-get update
+		sudo apt-get install i2c-tools
+
+	b. pigpio
+		wget abyz.me.uk/rpi/pigpio/pigpio.zip
+			unzip pigpio.zip
+			cd PIGPIO
+			make
+			sudo make install
+
+		Start the pigpiod service by typing:
+			sudo pigpiod start
+
+	Note: Type in “A” or “Y” when asked to overwrite files.
+
+
+	c. apache2
+		sudo apt-get install apache2 –y
+
+	d. sqlite3
+		sudo apt-get install php-sqlite3
+
+	e. php
+		sudo apt-get install php -y
+
+	f. vim
+		sudo apt-get install vim
+
+
+Note: “apt-get” can be written as just “apt”.
+
+_____________________________________________
+Step 2. Editing Fstab.txt / Mount FTP
+
+
+1. Create an EquipmentLogs directory in /mnt using the command:
+	sudo mkdir /mnt/EquipmentLogs
+
+2. Check kernel version and add accordingly:
+	Command to check kernel:  Cat/etc/os-release
+  
+3. Add one of the lines in the middle of the page after running the command:
+	sudo nano /etc/fstab
+
+Raspberry Pi Kernel < 4.9.16
+
+//192.168.1.11/QA\040Database/EquipmentLogs /mnt/EquipmentLogs cifs username=ice,password=ice1234,addr=192.168.1.11,_netdev,sec=ntlm 0 0
+
+or 
+
+Raspberry Pi Kernel > 4.9.16
+//192.168.1.11/QA\040Database/EquipmentLogs /mnt/EquipmentLogs cifs username=ice,password=ice1234,addr=192.168.1.11,_netdev 0 0
+
+4. Mount the directory:
+	sudo mount -a
+
+Note: If there is an error message: “mount error: cifs filesystem not supported by the system”, first try rebooting then run the mount command again. 
+
+
+_____________________________________________
+Step 3. Editing RC.Local
+
+
+
+1. Open RC.Local using the command:
+	sudo nano /etc/rc.local
+
+2. Add in the following lines to the bottom of the page (above exit 0):
+	sudo mount –a
+	sleep 5
+	sudo python /home/pi/Documents/DataLogger/_software/main.py &
+
+3. Save changes and exit:
+	CTRL+X, then Y
+
+OR
+
+
+Edit so that the rc.local file looks like the portion below:
+
+# Print the IP address
+
+sleep 15
+
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+
+sudo mount -a
+sleep 5
+python /home/pi/Documents/DataLogger/_software/main.py &
+
+
+exit 0
+
+_____________________________________________
+Step 4. Configure the webserver
+
+
+1. Change directory to: /home/pi/Documents/DataLogger
+
+2. Run command:
+	bash copyWebsite.sh
+
+3. Delete index.html from directory “/var/www/html”
+	sudo rm /var/www/html/index.html
+
+
+_____________________________________________
+Step 5. Enable Webserver to reboot system
+		
+						
+1. Edit the sudoers file:
+	sudo visudo
+
+2. Add the following line at the bottom of the page:
+	www-data	ALL = NOPASSWD: /sbin/reboot, /sbin/shutdown, /bin/bash
+
+3. Save changes
+	CTRL + X, then Y
+
+4. You should now be able to reboot the system from the webserver address + reboot.php
+	Ex. 192.168.100.49/reboot.php
+
+
+_____________________________________________
+Step 6. Configure SystemConfig.txt File
+
+	
+1. Change directory to: /home/pi/Documents/DataLogger/_settings
+
+2. Change the read/write permissions for the files below:
+
+	SystemConfig.txt
+	SystemConfig_temp.txt
+
+with command:
+	sudo chmod 777 XXXX.txt
+
+where XXXX is the name of the text files above.
+
+
+3. Edit the SystemConfig.txt file so that the “System Name” is not identical to any other System Name
+	Sudo nano SystemConfig.txt
+
+_____________________________________________
+Step 7. Configure Crontab
+
+ 
+1. Run command:
+	crontab –e
+
+Note: Select 1st option to use “nano” if prompt
+
+
+2. Copy these lines into the crontab:
+
+	@reboot sudo python /home/pi/Documents/DataLogger/_software/main.py &
+	*/10 * * * * sudo python /home/pi/Documents/DataLogger/_software/checkandreboot.py
+
+Note: The first line runs the script upon startup, and the second line checks to see if the script is running every 10 minutes (replace the 10 with any minute, if needed).
+
+
+3. Run command:
+	sudo crontab –e
+
+Note: Select 1st option to use “nano” if prompt
+
+
+4. Copy this line into the bottom.
+
+	0 6 */2 * * sudo reboot
+
+Note: This will restart the raspberry pi at 6am every two days.
+
+
