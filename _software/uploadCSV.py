@@ -616,12 +616,8 @@ def main(logGenerationInterval):
         print("Last Uploaded Date: " + lastUploadDate)
         print("Dictionary Date: " + tempDictionaryDate)
         if lastUploadDate != tempDictionaryDate:
-            try:
-                print("Saving to database..")
-                saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
-            except:
-                print("Saving to local drive..")
-                saveCSVFile(dictionaryData, filePathLocal, fileName)
+            print("Saving to database..")
+            saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
         else:
             print("Same Date: No Need to Upload")
     else:
