@@ -207,7 +207,11 @@ def main():
     print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
     # Insert data into database
     #print("Inserting into database: " + tempFormatted + "for channel " + channel)
-    insertIntoDatabase(channel, tempFormatted, table)
+    if(tempFormatted.find('0.0') < 0):
+        insertIntoDatabase(channel, tempFormatted, table)
+    else:
+        print("Invalid temperature reading.")
+        main()
     # If full day reached (12:00am), generate text file from database data and
     # upload to FTP (if file is uploaded daily)
 
