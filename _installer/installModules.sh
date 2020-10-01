@@ -4,8 +4,8 @@ sudo apt-get dist-upgrade -y
 
 sudo apt-get install i2c-tools
 
-wget https://github.com/joan2937/pigpio/archive/master.zip
-unzip master.zip
+sudo wget https://github.com/joan2937/pigpio/archive/master.zip
+sudo unzip master.zip
 cd pigpio-master
 sudo make
 sudo make install
@@ -16,5 +16,3 @@ sudo apt-get install php-sqlite3 -y
 sudo apt-get install php -y
 
 sudo apt-get install vim -y
-
-
