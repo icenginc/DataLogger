@@ -4,10 +4,10 @@ sudo apt-get dist-upgrade -y
 
 sudo apt-get install i2c-tools
 
-wget abyz.me.uk/rpi/pigpio/pigpio.zip
-unzip pigpio.zip
-cd PIGPIO
-make
+wget https://github.com/joan2937/pigpio/archive/master.zip
+unzip master.zip
+cd pigpio-master
+sudo make
 sudo make install
 sudo pigpiod start
 
