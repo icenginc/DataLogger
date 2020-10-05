@@ -21,8 +21,9 @@ def checkInputs():
 def readI2CMux(selectedPort):
     """This function takes the selected Port and sends a configuratio byte
     to the I2C Mux"""
-    pi = pigpio.pi()
+    #pi = pigpio.pi()
     try:
+        pi=pigpio.pi()
         handle = pi.i2c_open(1, I2C_MuxAddress)
         time.sleep(.2)
         controlByte = 0x04
