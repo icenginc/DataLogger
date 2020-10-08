@@ -17,7 +17,7 @@ current = 100 / 1000000.0
 #offset = - 3.40
 offset = 0
 twoToTheTwentyFour = 16777216 # 2^24
-
+retrycounter=0
 
 #-----------------7/22/2020 Removed RTD table, and no longer using CDV_Equation function.
 
@@ -102,6 +102,8 @@ def readADC(channel, dictionaryData):
     print("readADC.py:readADC, channel: " + str(channel))
     print("Converted channel: " + str(convertedChannel) + "  Hex: " + str(hex(convertedChannel)))
     temperature = 0
+    temp=0
+    numcount=0
     pi = pigpio.pi()
     try:
         handle = pi.i2c_open(1, adcAddress)
@@ -120,7 +122,14 @@ def readADC(channel, dictionaryData):
         gain = dictionaryData['gain' + channel]
         offset = dictionaryData['offset' + channel]
         print("Gain: " + str(gain) + "; Offset: " + str(offset))
-        temperature = (float(temperature) - float(offset)) * float(gain)
+        for x in range(0,5):
+            temp=convertADC(data)
+            temp= (float(temp) - float(offset)) * float(gain)
+            if(temp>1):
+                temperature=temperature+temp
+                numcount=numcount+1
+        if(numcount>0):
+            temperature=temperature/numcount
         #temperature = (float(temperature))
         pi.i2c_close(handle)
         time.sleep(0.1)
@@ -207,11 +216,13 @@ def main():
     print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
     # Insert data into database
     #print("Inserting into database: " + tempFormatted + "for channel " + channel)
-    if(tempFormatted.find('0.0') < 0):
+    if(tempFormatted > 0):
         insertIntoDatabase(channel, tempFormatted, table)
     else:
         print("Invalid temperature reading.")
-        main()
+        if(retrycounter <5):
+            retrycounter=retrycounter+1
+            main()
     # If full day reached (12:00am), generate text file from database data and
     # upload to FTP (if file is uploaded daily)
 
