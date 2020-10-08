@@ -133,13 +133,12 @@ def readADC(channel, dictionaryData):
         #temperature = (float(temperature))
         pi.i2c_close(handle)
         time.sleep(0.1)
-        pi.stop()
-        print("Adjusted Temperature: " + str(temperature) + "C")
     except Exception as e:
-        print("Adjusted Temperature: 0C")
         print(e)
         #os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
+    print("Adjusted Temperature: " + str(temperature) + "C")
+    pi.stop()
     return temperature
 
 # For tempData Table
