@@ -135,6 +135,7 @@ def readADC(channel, dictionaryData):
         time.sleep(0.1)
     except Exception as e:
         print(e)
+        os.system("sudo reboot")
         #os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
     print("Adjusted Temperature: " + str(temperature) + "C")
