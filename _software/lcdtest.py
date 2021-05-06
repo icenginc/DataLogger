@@ -15,7 +15,11 @@ def initLCD():
     print("Initializing LCD")
     i2cMux.readI2CMux(4)
     time.sleep(0.1)
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio initLCD already connected.")
+    except:
+        pi = pigpio.pi()
     try:
         handle = pi.i2c_open(1, LCD_Address)
         time.sleep(.5)
@@ -23,16 +27,21 @@ def initLCD():
         time.sleep(0.5)
         pi.i2c_close(handle)
         time.sleep(.2)
-        pi.stop()
     except:
         logging.debug("lcdTest.py:initLCD, Error Initializing LCD")
         print("Error Initializing LCD")
+    if pi.connected:
+        pi.stop()
 
 # Write's on second line
 def writeText2(text):
     i2cMux.readI2CMux(4)
     time.sleep(0.1)
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio LCDtext2 already connected.")
+    except:
+        pi = pigpio.pi()
     try:
         handle = pi.i2c_open(1, LCD_Address)
         time.sleep(.1)
@@ -44,15 +53,20 @@ def writeText2(text):
         time.sleep(.1)
         pi.i2c_close(handle)
         time.sleep(.1)
-        pi.stop()
     except Exception as e:
         logging.debug("lcdTest.py:writeText2, Error Writing LCD Text2")
         print("lcdTest.py:writeText2, Error Writing LCD Text2")
+    if pi.connected:
+        pi.stop()
 
 def writeText(text):
     i2cMux.readI2CMux(4)
     time.sleep(0.1)
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio LCDtext1 already connected.")
+    except:
+        pi = pigpio.pi()
     try:
         handle = pi.i2c_open(1, LCD_Address)
         time.sleep(.1)
@@ -64,10 +78,11 @@ def writeText(text):
         time.sleep(.1)
         pi.i2c_close(handle)
         time.sleep(.1)
-        pi.stop()
     except Exception as e:
         logging.debug("lcdTest.py:writeText, Error Writing LCD Text")
         print("lcdTest.py:writeText, Error Writing LCD Text")
+    if pi.connected:
+        pi.stop()
 
 def getChannelString(channel):
     if channel == "1":
