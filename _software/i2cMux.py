@@ -21,7 +21,11 @@ def checkInputs():
 def readI2CMux(selectedPort):
     """This function takes the selected Port and sends a configuratio byte
     to the I2C Mux"""
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio i2cMux already connected.")
+    except:
+        pi = pigpio.pi()
     try:
         handle = pi.i2c_open(1, I2C_MuxAddress)
         time.sleep(.2)
@@ -38,11 +42,12 @@ def readI2CMux(selectedPort):
         time.sleep(0.1)
         pi.i2c_close(handle)
         time.sleep(.1)
-        pi.stop()
         #print("I2C Mux Sent: " + hex(controlByte))
     except Exception as e:
         print("Error Configuring I2C Mux")
         print(e)
+    if pi.connected:
+        pi.stop()
 
 def main():
     """This is the main function"""
