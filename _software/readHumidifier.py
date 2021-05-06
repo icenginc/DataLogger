@@ -33,7 +33,11 @@ def getChannelString(channel):
         return "I2C 2"
 
 def readHum(channel, dictionaryData):
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio readHum already connected.")
+    except:
+        pi = pigpio.pi()
     temperature1Formatted = ""
     temperature2Formatted = ""
     humidityFormatted = ""
@@ -81,15 +85,23 @@ def readHum(channel, dictionaryData):
         temperature1Formatted = "{0:.4f}".format(temperature1)
         temperature2Formatted = "{0:.4f}".format(temperature2)
         humidityFormatted = "{0:.4f}".format(humidity)
+        if pi.connected:
+            pi.stop()
         return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
     except Exception as e:
         print("readHumidifier.py:readHum(), Error Reading Humidifer ADC")
         print(e)
+        if pi.connected:
+            pi.stop()
     #return humidityFormatted #save humidity into channel 5 in database
     #return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
 
 def readHum_i2c(channel, dictionaryData):
-    pi = pigpio.pi()
+    try:
+        if pi.connected:
+            print("Pigpio readHumi2c already connected.")
+    except:
+        pi = pigpio.pi()
     temperatureFormatted = ""
     humidityFormatted = ""
     try:
@@ -101,7 +113,8 @@ def readHum_i2c(channel, dictionaryData):
         time.sleep(0.2)
         pi.i2c_close(handle)
         time.sleep(0.1)
-        pi.stop()
+        if pi.connected:
+            pi.stop()
         print("Count: " + str(count))
         print(binascii.hexlify(data))
         tempString = binascii.hexlify(data)
@@ -134,6 +147,8 @@ def readHum_i2c(channel, dictionaryData):
     except Exception as e:
         print("readHumidifier.py:readHum(), Error Reading Humidifer I2C")
         print(e)
+        if pi.connected:
+            pi.stop()
     
     #return humidityFormatted #save humidity into channel 5 in database
     #return temperatureFormatted + ":" + temperatureFormatted + ":" + humidityFormatted 
