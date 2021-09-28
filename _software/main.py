@@ -171,7 +171,6 @@ def main():
         timer += 1.0
         timeNow = datetime.datetime.now()
         checkGPIOButtons()
-        #check_restart(timeNow)
         if (timeNow - startTimer5s).total_seconds() >= 5:
             print(str((timeNow - startTimer5s).total_seconds()) + " Seconds")
             #print(startTimer5s)
@@ -180,14 +179,7 @@ def main():
             #### ------------------------------------------------------ READ ADC and HUMIDIFIER (I2C)
             try:
                 print("Read Sensors")
-                for x in range(0,4):
-                    if dictionaryData['enabled' + str(x+1)] == "Yes":
-                        print("ADC Channel #" + str(x+1) + " Enabled")
-                        #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py 2 " + str(x+1))
-                        #time.sleep(0.2)
-                if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
-                    print("Humidity Detection Enabled")
-                    os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py 2")
+                checkhumdata(dictionaryData,2)
                 time.sleep(0.1)
             except:
                 logging.debug("Restarting I2C Library")
@@ -231,24 +223,19 @@ def main():
             startTargetTime = timeNow
             #print(datetime.datetime.now().time())
             # Save to .txt file / database
-            for x in range(0,4):
-                if dictionaryData['enabled' + str(x+1)] == "Yes":
-                    print("ADC Channel #" + str(x+1) + " Enabled")
-                    #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py 1 " + str(x+1))
-            if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
-                print("Humidity Detection Enabled")
-                os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py 1")
+            checkhumdata(dictionaryData,1)
             uploadCSV.main(dictionaryData['saveDuration'])
             timer = 0
         #print(str((timeNow - programStartTime).total_seconds()) + " Seconds Running")
-
-def check_restart(date_time):
-    #print time.hour
-    if(date_time.hour == 0 and date_time.minute == 0 and date_time.second < 30):
-        print ("SCHEDULED RESTART")
-        exitHandler("RESTARTING")
-        time.sleep(3)
-        os.system("sudo bash /home/pi/Documents/DataLogger/_software/reboot.sh")
+       
+def checkhumdata(dictionaryData, inputno):
+    for x in range(0,4):
+        if dictionaryData['enabled' + str(x+1)] == "Yes":
+            print("ADC Channel #" + str(x+1) + " Enabled")
+            #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
+    if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
+        print("Humidity Detection Enabled")
+        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno))
 
 def exitHandler(text):
     print("\nExiting script...")
