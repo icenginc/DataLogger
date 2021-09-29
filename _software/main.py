@@ -17,6 +17,8 @@ import postip
 #import uploadCSVlocal
 #import LCDLibrary
 import RPi.GPIO as GPIO
+
+#------------------------------------------------------------Variables
 GPIO.setmode(GPIO.BCM)
 button1 = 23
 button2 = 24
@@ -32,14 +34,28 @@ portChannels = []
 dictionaryData = {}
 timer = 0
 
-def getIPAddress():
-    s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    ip = s.getsockname()[0]
-    s.close()
-    print(ip)
-    return ip
+#------------------------------------------------------------Functions
+#------------------------------------------------------------------------------------------GPIO
+def initGPIO():
+    print("Initialize GPIO")
+    GPIO.setup(button1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(button2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(button3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.add_event_detect(button1, GPIO.FALLING, callback=action_button1)
+    GPIO.add_event_detect(button2, GPIO.FALLING, callback=action_button2)
+    GPIO.add_event_detect(button3, GPIO.FALLING, callback=action_button3)
+    GPIO.setup(sensor_Run, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(sensor_Alarm, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+def checkGPIOButtons():
+    if GPIO.input(button1):
+        action_button1(button1)
+    elif GPIO.input(button2):
+        action_button2(button2)
+    elif GPIO.input(button3):
+        action_button3(button3)
+    #time.sleep(0.3)    
+    
 def action_button1(empty):
     print("Button 1")
     dictionaryData = uploadCSV.getAllDictionaries(1) # HARD CODED
@@ -72,17 +88,7 @@ def action_button3(empty):
     lcdtest.initLCD()
     time.sleep(0.5)
 
-def initGPIO():
-    print("Initialize GPIO")
-    GPIO.setup(button1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(button2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(button3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.add_event_detect(button1, GPIO.FALLING, callback=action_button1)
-    GPIO.add_event_detect(button2, GPIO.FALLING, callback=action_button2)
-    GPIO.add_event_detect(button3, GPIO.FALLING, callback=action_button3)
-    GPIO.setup(sensor_Run, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(sensor_Alarm, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
+#------------------------------------------------------------------------------------------i2C
 def checkI2CLibrary():
     """Checks to see if the pigpiod library is running"""
     proc = subprocess.Popen(["pigs pigpv"], stdout=subprocess.PIPE, shell=True)
@@ -94,14 +100,25 @@ def checkI2CLibrary():
         logging.debug("Restart I2C")
         os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
 
-def checkGPIOButtons():
-    if GPIO.input(button1):
-        action_button1(button1)
-    elif GPIO.input(button2):
-        action_button2(button2)
-    elif GPIO.input(button3):
-        action_button3(button3)
-    #time.sleep(0.3)
+#------------------------------------------------------------------------------------------Humidity/ADC
+def checkhumdata(dictionaryData, inputno):
+    for x in range(0,4):
+        if dictionaryData['enabled' + str(x+1)] == "Yes":
+            print("ADC Channel #" + str(x+1) + " Enabled")
+            #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
+    if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
+        print("Humidity Detection Enabled")
+        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno))
+
+        
+#------------------------------------------------------------------------------------------Others
+def getIPAddress():
+    s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    print(ip)
+    return ip
 
 def startLogger():
     date = datetime.date.today()
@@ -113,6 +130,21 @@ def startLogger():
         logging.info("START LOGGING")
     logging.basicConfig(filename="/home/pi/Documents/DataLogger/_logs/" + debugFilename, filemode="w", level=logging.DEBUG, format="%(asctime)s, %(levelname)s - %(message)s", datefmt="%m/%d/%Y %I:%M:%S %p")
 
+def exitHandler(text):
+    print("\nExiting script...")
+    print("----------------------------------------------------------------")
+    try:
+        lcdtest.setLCDBacklight(0) # OFF
+        lcdtest.initLCD()
+        lcdtest.writeText("Shutting Down...")
+        time.sleep(1)
+        lcdtest.writeText(text)
+        time.sleep(1)
+    except Exception as e:
+        print("Error exiting")
+        print(e)    
+
+#---------------------------------------------Main
 def main():
     """This is the main fuction"""
     global timer
@@ -227,30 +259,8 @@ def main():
             uploadCSV.main(dictionaryData['saveDuration'])
             timer = 0
         #print(str((timeNow - programStartTime).total_seconds()) + " Seconds Running")
-       
-def checkhumdata(dictionaryData, inputno):
-    for x in range(0,4):
-        if dictionaryData['enabled' + str(x+1)] == "Yes":
-            print("ADC Channel #" + str(x+1) + " Enabled")
-            #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
-    if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
-        print("Humidity Detection Enabled")
-        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno))
 
-def exitHandler(text):
-    print("\nExiting script...")
-    print("----------------------------------------------------------------")
-    try:
-        lcdtest.setLCDBacklight(0) # OFF
-        lcdtest.initLCD()
-        lcdtest.writeText("Shutting Down...")
-        time.sleep(1)
-        lcdtest.writeText(text)
-        time.sleep(1)
-    except Exception as e:
-        print("Error exiting")
-        print(e)
-#### -------------------------------------------------- START
+#-------------------------------------------------- START
 
 atexit.register(exitHandler, "OFF")
 main()
