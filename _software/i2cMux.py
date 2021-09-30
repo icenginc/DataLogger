@@ -9,8 +9,8 @@ args = sys.argv
 def checkInputs():
     """This function checks the user inputs. Inputs are as follows:
     I2C Port Selection: (1, 2, 3, 4)
-    
     Returns selected port"""
+    
     if len(args) == 2:
         return args[1]
     else:
@@ -31,13 +31,17 @@ def readI2CMux(selectedPort):
         time.sleep(.2)
         controlByte = 0x04
         if (int(selectedPort) == 1):
-            controlByte = 0x04
+            #Selects ADC Chip
+            controlByte = 0x04 #0x01 RevB mux values
         elif (int(selectedPort) == 2):
-            controlByte = 0x05
+            #Selects I2C (channel 1 - J5)
+            controlByte = 0x05 #0x02 RevB mux values
         elif (int(selectedPort) == 3):
-            controlByte = 0x06
+            #Selects I2C (channel 2 - J6)
+            controlByte = 0x06 #0x04 RevB mux values
         elif (int(selectedPort) == 4):
-            controlByte = 0x07
+            #Selects LCD Screen
+            controlByte = 0x07 #0x08 RevB mux values
         pi.i2c_write_byte(handle, controlByte)
         time.sleep(0.1)
         pi.i2c_close(handle)
