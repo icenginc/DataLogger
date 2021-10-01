@@ -32,7 +32,7 @@ def getChannelString(channel):
     elif channel == "6":
         return "I2C 2"
 
-def readHum_adc(channel, dictionaryData):
+def readHum(channel, dictionaryData):
     try:
         if pi.connected:
             print("Pigpio readHum already connected.")
@@ -220,7 +220,7 @@ def main():
                 insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
             elif args[2] == "1":
                 i2cMux.readI2CMux(1)
-                tempHum = readHum_adc("6", dictionaryData)
+                tempHum = readHum("6", dictionaryData)
                 insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
                 insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
                 insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
