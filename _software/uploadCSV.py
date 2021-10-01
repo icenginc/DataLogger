@@ -234,56 +234,75 @@ def saveCSVFile(dictionaryData, filePath, fileName):
     updateUploadedBool(dictionaryData)
 
 def checkDictionaryDataKeys(dictionaryData):
-    if "data1" not in dictionaryData:
-        dictionaryData["data1"] = ""
-    if "data2" not in dictionaryData:
-        dictionaryData["data2"] = ""
-    if "data3" not in dictionaryData:
-        dictionaryData["data3"] = ""
-    if "data4" not in dictionaryData:
-        dictionaryData["data4"] = ""
-    if "data5" not in dictionaryData:
-        dictionaryData["data5"] = ""
-        dictionaryData["data51"] = ""
-        dictionaryData["data52"] = ""
-    if "data6" not in dictionaryData:
-        dictionaryData["data6"] = ""
-        dictionaryData["data61"] = ""
-        dictionaryData["data62"] = ""
-
-    if "unit1" not in dictionaryData:
-        dictionaryData["unit1"] = ""
-    if "unit2" not in dictionaryData:
-        dictionaryData["unit2"] = ""
-    if "unit3" not in dictionaryData:
-        dictionaryData["unit3"] = ""
-    if "unit4" not in dictionaryData:
-        dictionaryData["unit4"] = ""
-    if "unit5" not in dictionaryData:
-        dictionaryData["unit5"] = ""
-        dictionaryData["unit51"] = ""
-        dictionaryData["unit52"] = ""
-    if "unit6" not in dictionaryData:
-        dictionaryData["unit6"] = ""
-        dictionaryData["unit61"] = ""
-        dictionaryData["unit62"] = ""
-    
-    if "enabled1" not in dictionaryData:
-        dictionaryData["enabled1"] = ""
-    if "enabled2" not in dictionaryData:
-        dictionaryData["enabled2"] = ""
-    if "enabled3" not in dictionaryData:
-        dictionaryData["enabled3"] = ""
-    if "enabled4" not in dictionaryData:
-        dictionaryData["enabled4"] = ""
-    if "enabled5" not in dictionaryData:
-        dictionaryData["enabled5"] = ""
-        dictionaryData["enabled51"] = ""
-        dictionaryData["enabled52"] = ""
-    if "enabled6" not in dictionaryData:
-        dictionaryData["enabled6"] = ""
-        dictionaryData["enabled61"] = ""
-        dictionaryData["enabled62"] = ""
+    for x in range(1,7):
+        if "data"+str(x) not in dictionaryData:
+            dictionaryData["data"+str(x)] = ""
+            if x > 4:
+                for y in range (1,3):
+                    dictionaryData["data"+str(x)+str(y)] = ""
+                    
+    for x in range(1,7):
+        if "unit"+str(x) not in dictionaryData:
+            dictionaryData["unit"+str(x)] = ""
+            if x > 4:
+                for y in range (1,3):
+                    dictionaryData["unit"+str(x)+str(y)] = ""
+                    
+    for x in range(1,7):
+        if "enabled"+str(x) not in dictionaryData:
+            dictionaryData["enabled"+str(x)] = ""
+            if x > 4:
+                for y in range (1,3):
+                    dictionaryData["enabled"+str(x)+str(y)] = ""
+                    
+    #if "data2" not in dictionaryData:
+    #    dictionaryData["data2"] = ""
+#    if "data3" not in dictionaryData:
+#        dictionaryData["data3"] = ""
+#    if "data4" not in dictionaryData:
+#        dictionaryData["data4"] = ""
+#    if "data5" not in dictionaryData:
+#        dictionaryData["data5"] = ""
+#        dictionaryData["data51"] = ""
+#        dictionaryData["data52"] = ""
+#    if "data6" not in dictionaryData:
+#        dictionaryData["data6"] = ""
+#        dictionaryData["data61"] = ""
+#        dictionaryData["data62"] = ""
+#
+#    if "unit1" not in dictionaryData:
+#        dictionaryData["unit1"] = ""
+#    if "unit2" not in dictionaryData:
+#        dictionaryData["unit2"] = ""
+#    if "unit3" not in dictionaryData:
+#        dictionaryData["unit3"] = ""
+#    if "unit4" not in dictionaryData:
+#        dictionaryData["unit4"] = ""
+#    if "unit5" not in dictionaryData:
+#        dictionaryData["unit5"] = ""
+#        dictionaryData["unit51"] = ""
+#        dictionaryData["unit52"] = ""
+#    if "unit6" not in dictionaryData:
+#        dictionaryData["unit6"] = ""
+#        dictionaryData["unit61"] = ""
+#        dictionaryData["unit62"] = ""
+#    
+#    if "enabled1" not in dictionaryData:
+#        dictionaryData["enabled1"] = ""
+#    if "enabled2" not in dictionaryData:
+#        dictionaryData["enabled2"] = ""
+#    if "enabled3" not in dictionaryData:
+#        dictionaryData["enabled3"] = ""
+#    if "enabled4" not in dictionaryData:
+#        dictionaryData["enabled4"] = ""
+#    if "enabled5" not in dictionaryData:
+#        dictionaryData["enabled5"] = ""
+#        dictionaryData["enabled51"] = ""
+#        dictionaryData["enabled52"] = ""
+#    if "enabled6" not in dictionaryData:
+#        dictionaryData["enabled6"] = ""
+ #       dictionaryData["enabled61"] = ""
+ #       dictionaryData["enabled62"] = ""
     
     if dictionaryData['data5'].find(":") != -1:
         location = dictionaryData['data5'].find(":")
@@ -439,102 +458,19 @@ def getSensorInfo(channel):
             dictionary['sensorType'] = findInLine(line, "SensorType").strip()
         if len(findInLine(line, "MinSetting")) > 0 and channel == tempID:
             dictionary['min'+str(channel)] = findInLine(line, "MinSetting").strip()
-#            if channel == 1:
-#                dictionary['min1'] = findInLine(line, "MinSetting").strip()
-#            elif channel == 2:
-#                dictionary['min2'] = findInLine(line, "MinSetting").strip()
-#            elif channel == 3:
-#                dictionary['min3'] = findInLine(line, "MinSetting").strip()
-#            elif channel == 4:
-#                dictionary['min4'] = findInLine(line, "MinSetting").strip()
-#            elif channel == 5:
-#                dictionary['min5'] = findInLine(line, "MinSetting").strip()
-#            elif channel == 6:
-#                dictionary['min6'] = findInLine(line, "MinSetting").strip()
         if len(findInLine(line, "MaxSetting")) > 0 and channel == tempID:
             dictionary['max'+str(channel)] = findInLine(line, "MaxSetting").strip()
-#            if channel == 1:
-#                dictionary['max1'] = findInLine(line, "MaxSetting").strip()
-#            elif channel == 2:
-#                dictionary['max2'] = findInLine(line, "MaxSetting").strip()
-#            elif channel == 3:
-#                dictionary['max3'] = findInLine(line, "MaxSetting").strip()
-#            elif channel == 4:
-#                dictionary['max4'] = findInLine(line, "MaxSetting").strip()
-#            elif channel == 5:
-#                dictionary['max5'] = findInLine(line, "MaxSetting").strip()
-#            elif channel == 6:
-#                dictionary['max6'] = findInLine(line, "MaxSetting").strip()
         if len(findInLine(line, "SensorUnit")) > 0 and channel == tempID:
             dictionary['unit'+str(channel)] = findInLine(line, "SensorUnit").strip()
-#            if channel == 1:
-#                dictionary['unit1'] = findInLine(line, "SensorUnit").strip()
-#            elif channel == 2:
-#                dictionary['unit2'] = findInLine(line, "SensorUnit").strip()
-#            elif channel == 3:
-#                dictionary['unit3'] = findInLine(line, "SensorUnit").strip()
-#            elif channel == 4:
-#                dictionary['unit4'] = findInLine(line, "SensorUnit").strip()
-#            elif channel == 5:
-#                dictionary['unit5'] = findInLine(line, "SensorUnit").strip()
-#            elif channel == 6:
-#                dictionary['unit6'] = findInLine(line, "SensorUnit").strip()
         if len(findInLine(line, "Gain")) > 0 and channel == tempID:
             dictionary['gain'+str(channel)] = findInLine(line, "Gain").strip()
-#            if channel == 1:
-#                dictionary['gain1'] = findInLine(line, "Gain").strip()
-#            elif channel == 2:
-#                dictionary['gain2'] = findInLine(line, "Gain").strip()
-#            elif channel == 3:
-#                dictionary['gain3'] = findInLine(line, "Gain").strip()
-#            elif channel == 4:
-#                dictionary['gain4'] = findInLine(line, "Gain").strip()
-#            elif channel == 5:
-#                dictionary['gain5'] = findInLine(line, "Gain").strip()
-#            elif channel == 6:
-#                dictionary['gain6'] = findInLine(line, "Gain").strip()
         if len(findInLine(line, "Offset")) > 0 and channel == tempID:
             dictionary['offset'+str(channel)] = findInLine(line, "Offset").strip()
-#            if channel == 1:
-#                dictionary['offset1'] = findInLine(line, "Offset").strip()
-#            elif channel == 2:
-#                dictionary['offset2'] = findInLine(line, "Offset").strip()
-#            elif channel == 3:
-#                dictionary['offset3'] = findInLine(line, "Offset").strip()
-#            elif channel == 4:
-#                dictionary['offset4'] = findInLine(line, "Offset").strip()
-#            elif channel == 5:
-#                dictionary['offset5'] = findInLine(line, "Offset").strip()
-#            elif channel == 6:
-#                dictionary['offset6'] = findInLine(line, "Offset").strip()
         if len(findInLine(line, "LogFileChannelAssignment")) > 0 and channel == tempID:
             dictionary['logChannelA'+str(channel)] = findInLine(line, "LogFileChannelAssignment").strip()
-#            if channel == 1:
-#                dictionary['logChannelA1'] = findInLine(line, "LogFileChannelAssignment").strip()
-#            elif channel == 2:
-#                dictionary['logChannelA2'] = findInLine(line, "LogFileChannelAssignment").strip()
-#            elif channel == 3:
-#                dictionary['logChannelA3'] = findInLine(line, "LogFileChannelAssignment").strip()
-#            elif channel == 4:
-#                dictionary['logChannelA4'] = findInLine(line, "LogFileChannelAssignment").strip()
-#            elif channel == 5:
-#                dictionary['logChannelA5'] = findInLine(line, "LogFileChannelAssignment").strip()
-#            elif channel == 6:
-#                dictionary['logChannelA6'] = findInLine(line, "LogFileChannelAssignment").strip()
         if len(findInLine(line, "Enabled")) > 0 and channel == tempID:
             dictionary['enabled'+str(channel)] = findInLine(line, "Enabled").strip()
-#            if channel == 1:
-#                dictionary['enabled1'] = findInLine(line, "Enabled").strip()
-#            elif channel == 2:
-#                dictionary['enabled2'] = findInLine(line, "Enabled").strip()
-#            elif channel == 3:
-#                dictionary['enabled3'] = findInLine(line, "Enabled").strip()
-#            elif channel == 4:
-#                dictionary['enabled4'] = findInLine(line, "Enabled").strip()
-#            elif channel == 5:
-#                dictionary['enabled5'] = findInLine(line, "Enabled").strip()
-#            elif channel == 6:
-#                dictionary['enabled6'] = findInLine(line, "Enabled").strip()
+
     readFile.close()
     return dictionary
 
@@ -594,6 +530,7 @@ def getBeginningOfWeek():
     return sunday
 
 def main(logGenerationInterval):
+    filePath = "/mnt/EquipmentLogs/"
     dictionaryData = getAllDictionaries()
     checkDictionaryDataKeys(dictionaryData)
     #for item in dictionaryData:
@@ -602,18 +539,12 @@ def main(logGenerationInterval):
     #exit()
     editedTime = "0000" #dictionaryData['time'].replace(":","")
     if logGenerationInterval == "Daily":
-        fileName = dictionaryData['system'].replace("System:","") + "_" + \
-            dictionaryData['date'].replace("-","") + "_" + \
-            editedTime[:4] + ".csv"
+        fileName = dictionaryData['system'].replace("System:","") + "_" + dictionaryData['date'].replace("-","") + "_" + editedTime[:4] + ".csv"
     elif logGenerationInterval == "Weekly":
-        sunday = getBeginningOfWeek()
-        fileName = dictionaryData['system'].replace("System:","") + "_" + \
-            sunday + "_" + \
-            editedTime[:4] + ".csv"
+        fileName = dictionaryData['system'].replace("System:","") + "_" + getBeginningOfWeek() + "_" + editedTime[:4] + ".csv"
     #print(fileName)
     #exit()
     #filePath = "/mnt/BI_TEST/AndrewC/_DataLogger/_software/_TempCSV/"
-    filePath = "/mnt/EquipmentLogs/"
     #doesCSVFileExist(filePath, fileName)
     if canAccessServer(filePath):
         filePathWSubfolder = filePath + dictionaryData["system"] + "/"
