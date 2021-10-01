@@ -32,7 +32,7 @@ def getChannelString(channel):
     elif channel == "6":
         return "I2C 2"
 
-def readHum(channel, dictionaryData):
+def readHum_adc(channel, dictionaryData):
     try:
         if pi.connected:
             print("Pigpio readHum already connected.")
@@ -202,31 +202,31 @@ def insertIntoDatabase(channel, data, dictionaryData, table="2"):
 
 def main():
     """This is the main function. It takes 1 argument:
-    Ex: python readHumidifier.py 1\t Writes to dataTable in database
-    Ex: python readHumidifier.py 2\t Writes to tempTable in database"""
-    #but there is only one table?
-    dictionaryData = uploadCSV.getAllDictionaries()
-    print(dictionaryData['enabled5'])
-    select=1
-    if dictionaryData['enabled5'] == "Yes":
-        select=0
-    i2cMux.readI2CMux(3)
+    Ex: python readHumidifier.py 1 X \t Writes to dataTable in database
+    Ex: python readHumidifier.py 2 X \t Writes to tempTable in database
+    X: 0 for i2c, 1 for ADC
+    """
+    
     args = sys.argv
-    table = 2
-    if len(args) > 1:
+    if len(args) > 2:
+        table=args[1]
+        select=args[2]
+        dictionaryData = uploadCSV.getAllDictionaries()
         if args[1] == "1" or args[1] == "2":
-            #print(args[1])
-            table = args[1]
-    if select == 1:
-        tempHum = readHum("6", dictionaryData)
-    if select == 0:
-        tempHum = readHum_i2c("5", dictionaryData)
-    print(tempHum)
-    if select == 1:
-        insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-        insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
-        insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
-    if select == 0:
-        insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
+            print("Table: "+args[1]+" Port: "+args[2])
+            if args[2] == "0":
+                i2cMux.readI2CMux(3)
+                tempHum = readHum_i2c("5", dictionaryData)
+                insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
+            elif args[2] == "1":
+                i2cMux.readI2CMux(1)
+                tempHum = readHum_adc("6", dictionaryData)
+                insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
+                insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
+                insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
+            else:
+                print("Invalid port to read humidity from.")
+        else:
+            print("Invalid table to record into.")
 
 main()
