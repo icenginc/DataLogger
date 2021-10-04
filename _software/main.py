@@ -101,7 +101,7 @@ def checkI2CLibrary():
         os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
 
 #------------------------------------------------------------------------------------------Humidity/ADC
-def checkhumdata(dictionaryData, inputno):
+def gettempdata(dictionaryData, inputno):
     for x in range(0,4):
         if dictionaryData['enabled' + str(x+1)] == "Yes":
             print("ADC Channel #" + str(x+1) + " Enabled")
@@ -211,7 +211,7 @@ def main():
             #### ------------------------------------------------------ READ ADC and HUMIDIFIER (I2C)
             try:
                 print("Read Sensors")
-                checkhumdata(dictionaryData,2)
+                gettempdata(dictionaryData,2)
                 time.sleep(0.1)
             except:
                 logging.debug("Restarting I2C Library")
@@ -255,7 +255,7 @@ def main():
             startTargetTime = timeNow
             #print(datetime.datetime.now().time())
             # Save to .txt file / database
-            checkhumdata(dictionaryData,1)
+            gettempdata(dictionaryData,1)
             uploadCSV.main(dictionaryData['saveDuration'])
             timer = 0
         #print(str((timeNow - programStartTime).total_seconds()) + " Seconds Running")
