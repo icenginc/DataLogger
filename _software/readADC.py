@@ -17,30 +17,7 @@ current = 100 / 1000000.0
 #offset = - 3.40
 offset = 0
 twoToTheTwentyFour = 16777216 # 2^24
-retrycounter=0
 
-#-----------------7/22/2020 Removed RTD table, and no longer using CDV_Equation function.
-
-#def CVD_equation(resistance):
-#    c = 1 - (resistance/100) #100 resistance at 0 degrees
-#    a = -.00000057365 #calc from constants
-#    b = 0.00392
-#    d = b**2-4*a*c # discriminant
-#    if d < 0:
-#        print ("This equation has no real solution")
-#        return 0;
-#    elif d == 0:
-#        x = (-b+math.sqrt(b**2-4*a*c))/2*a
-#        #print ("This equation has one solutions: "), x
-#        return x;
-#    else:
-#        x1 = (-b+math.sqrt((b**2)-(4*(a*c))))/(2*a)
-#        x2 = (-b-math.sqrt((b**2)-(4*(a*c))))/(2*a)
-#        #print ("This equation has two solutions: ", x1, " or", x2)
-#        if (x1 > 0):
-#            return x1
-#        elif(x2 > 0):
-#            return x2
 
 def resistancetotemp(resistance):
     a = 0.00392 #standard coeff
@@ -200,34 +177,37 @@ def main():
     """This is the main function. It takes 1 argument:
     Ex: python readADC.py 1\t Writes to dataTable in database
     Ex: python readADC.py 2\t Writes to tempTable in database"""
-    i2cMux.readI2CMux(1)
-    channel = "1"
     # channel min
     # channel max
     # channel units
     # channel interval
     # channel upload ftp link
     #configureI2CMux()
+       
     args = sys.argv
-    table = 2
-    if len(args) > 2:
-        if args[1] == "1" or args[1] == "2":
-            #print(args[1])
-            table = args[1]
-        channel = args[2]
+    i2cMux.readI2CMux(1)
     dictionaryData = uploadCSV.getAllDictionaries()
-    temperature = readADC(channel, dictionaryData)
-    tempFormatted = "{0:.2f}".format(temperature)
-    print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
-    # Insert data into database
-    #print("Inserting into database: " + tempFormatted + "for channel " + channel)
-    if(tempFormatted > 0):
-        insertIntoDatabase(channel, tempFormatted, table)
-    else:
-        print("Invalid temperature reading.")
-        if(retrycounter <5):
-            retrycounter=retrycounter+1
-            main()
+    count=0
+    while(True):
+        if len(args) > 2:
+            table = args[1]
+            channel = args[2]
+            temperature = readADC(channel, dictionaryData)
+            tempFormatted = "{0:.2f}".format(temperature)
+            print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
+            # Insert data into database
+            #print("Inserting into database: " + tempFormatted + "for channel " + channel)
+            if(tempFormatted > 0):
+                insertIntoDatabase(channel, tempFormatted, table)
+                break
+            else:
+                if(count <5):
+                    print("Invalid temperature reading. Re-reading temperature (Attempt :"+str(count)+", Max: 5)")
+                    count=count+1
+                else:
+                    print("Max attemps reached. Exiting readADC main without measurement.")
+                    break
+                    
     # If full day reached (12:00am), generate text file from database data and
     # upload to FTP (if file is uploaded daily)
 
