@@ -88,7 +88,35 @@ def action_button3(empty):
     lcdtest.initLCD()
     time.sleep(0.5)
 
-#------------------------------------------------------------------------------------------i2C
+#------------------------------------------------------------------------------------------Temperature Data
+"""
+Order of priority.
+I2C5 > I2C6 > ADC1&2 > ADC3 > ADC4 
+
+I2C6, ADC3, ADC4 have not been programmed yet. 10/4/21
+
+"""
+def gettempdata(dictionaryData, inputno):
+    for x in range(0,4):
+        if dictionaryData['enabled' + str(x+1)] == "Yes":
+            print("ADC Channel #" + str(x+1) + " Enabled")
+            #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
+    if dictionaryData['enabled5'] == "Yes":
+        print("I2C Temperature Enabled.")
+        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 0")
+    elif dictionaryData['enabled1'] == "Yes" and dictionaryData['enabled2'] == "Yes":
+        print("Humidity Detection Enabled")
+        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
+        
+#------------------------------------------------------------------------------------------Others
+def getIPAddress():
+    s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    print(ip)
+    return ip
+
 def checkI2CLibrary():
     """Checks to see if the pigpiod library is running"""
     proc = subprocess.Popen(["pigs pigpv"], stdout=subprocess.PIPE, shell=True)
@@ -99,26 +127,6 @@ def checkI2CLibrary():
     else:
         logging.debug("Restart I2C")
         os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
-
-#------------------------------------------------------------------------------------------Humidity/ADC
-def gettempdata(dictionaryData, inputno):
-    for x in range(0,4):
-        if dictionaryData['enabled' + str(x+1)] == "Yes":
-            print("ADC Channel #" + str(x+1) + " Enabled")
-            #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
-    if dictionaryData['enabled' + str(1)] == "Yes" and dictionaryData['enabled' + str(2)] == "Yes":
-        print("Humidity Detection Enabled")
-        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno))
-
-        
-#------------------------------------------------------------------------------------------Others
-def getIPAddress():
-    s= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    ip = s.getsockname()[0]
-    s.close()
-    print(ip)
-    return ip
 
 def startLogger():
     date = datetime.date.today()
@@ -172,8 +180,7 @@ def main():
             tempMax = dictionaryData[("max" + str(i))]
         if ("unit" + str(i)) in dictionaryData:
             tempUnit = dictionaryData[("unit" + str(i))]
-    tempString = "Min:" + tempMin + tempUnit + \
-        ", Max:" + tempMax + tempUnit
+    tempString = "Min:" + tempMin + tempUnit + ", Max:" + tempMax + tempUnit
     
     ipAddress = getIPAddress()
     ipAddress = (ipAddress).strip()
