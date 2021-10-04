@@ -220,15 +220,14 @@ def saveCSVFile(dictionaryData, filePath, fileName):
         print("Creating New File")
         print(filePath + fileName)
         writeFile = open(filePath + fileName, "w")
-        firstLine = dictionaryData['RP_Name'] + ",MAC Address:" + dictionaryData['RP_MacAddress'] + \
-            ",RP Version:" + dictionaryData['RP_Version'] + "\n"
-        secondLine = "System:" + dictionaryData['system'] + ",SensorType:" + \
-            dictionaryData['sensorType'] + ",Min:" + dictionaryData['min1'] + ",Max:" + \
-            dictionaryData['max1'] + ",Log Interval:" + dictionaryData['logIntervalMain'] + \
-            ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
+        piinfo = dictionaryData['RP_Name'] + ",MAC Address:" + dictionaryData['RP_MacAddress'] + ",RP Version:" + dictionaryData['RP_Version'] + "\n"
+        systeminfo = "SensorType:" + dictionaryData['sensorType'] + ",Min:" + dictionaryData['min1'] + ",Max:" + \
+            dictionaryData['max1'] + ",Log Interval:" + dictionaryData['logIntervalMain'] + ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
+        dataheader = "Date,Time,ADC 1,,ADC 2,,ADC 3,,ADC 4,,I2C1,,I2C2" + "\n"
         dataLine = getDataLine(dictionaryData)
-        writeFile.write(firstLine)
-        writeFile.write(secondLine)
+        writeFile.write(piinfo)
+        writeFile.write(systeminfo)
+        writeFile.write(dataheader)
         writeFile.write(dataLine)
         writeFile.close()
     updateUploadedBool(dictionaryData)
@@ -254,55 +253,6 @@ def checkDictionaryDataKeys(dictionaryData):
             if x > 4:
                 for y in range (1,3):
                     dictionaryData["enabled"+str(x)+str(y)] = ""
-                    
-    #if "data2" not in dictionaryData:
-    #    dictionaryData["data2"] = ""
-#    if "data3" not in dictionaryData:
-#        dictionaryData["data3"] = ""
-#    if "data4" not in dictionaryData:
-#        dictionaryData["data4"] = ""
-#    if "data5" not in dictionaryData:
-#        dictionaryData["data5"] = ""
-#        dictionaryData["data51"] = ""
-#        dictionaryData["data52"] = ""
-#    if "data6" not in dictionaryData:
-#        dictionaryData["data6"] = ""
-#        dictionaryData["data61"] = ""
-#        dictionaryData["data62"] = ""
-#
-#    if "unit1" not in dictionaryData:
-#        dictionaryData["unit1"] = ""
-#    if "unit2" not in dictionaryData:
-#        dictionaryData["unit2"] = ""
-#    if "unit3" not in dictionaryData:
-#        dictionaryData["unit3"] = ""
-#    if "unit4" not in dictionaryData:
-#        dictionaryData["unit4"] = ""
-#    if "unit5" not in dictionaryData:
-#        dictionaryData["unit5"] = ""
-#        dictionaryData["unit51"] = ""
-#        dictionaryData["unit52"] = ""
-#    if "unit6" not in dictionaryData:
-#        dictionaryData["unit6"] = ""
-#        dictionaryData["unit61"] = ""
-#        dictionaryData["unit62"] = ""
-#    
-#    if "enabled1" not in dictionaryData:
-#        dictionaryData["enabled1"] = ""
-#    if "enabled2" not in dictionaryData:
-#        dictionaryData["enabled2"] = ""
-#    if "enabled3" not in dictionaryData:
-#        dictionaryData["enabled3"] = ""
-#    if "enabled4" not in dictionaryData:
-#        dictionaryData["enabled4"] = ""
-#    if "enabled5" not in dictionaryData:
-#        dictionaryData["enabled5"] = ""
-#        dictionaryData["enabled51"] = ""
-#        dictionaryData["enabled52"] = ""
-#    if "enabled6" not in dictionaryData:
-#        dictionaryData["enabled6"] = ""
- #       dictionaryData["enabled61"] = ""
- #       dictionaryData["enabled62"] = ""
     
     if dictionaryData['data5'].find(":") != -1:
         location = dictionaryData['data5'].find(":")
