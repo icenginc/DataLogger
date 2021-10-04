@@ -173,16 +173,7 @@ def checkUnsavedData(fileName, filePath, logGenerationInterval):
             print("No unsaved data found")
             foundData = False
             break
-        editedTime = "0000"
-        if logGenerationInterval == "Daily":
-            fileName = tempDictionaryDataFinal['system'].replace("System:","") + "_" + \
-                tempDictionaryDataFinal['date'].replace("-","") + "_" + \
-                editedTime[:4] + ".csv"
-        elif logGenerationInterval == "Weekly":
-            sunday = getBeginningOfWeek()
-            fileName = tempDictionaryDataFinal['system'].replace("System:","") + "_" + \
-                sunday + "_" + \
-                editedTime[:4] + ".csv"
+        fileName=generateCSVname(tempDictionaryDataFinal,logGenerationInterval)
         try:
             saveCSVFile(tempDictionaryDataFinal, filePath, fileName)
         except:
@@ -192,44 +183,41 @@ def checkUnsavedData(fileName, filePath, logGenerationInterval):
         lastUploadDate = tempDictionaryDataFinal['date'] + " " + tempDictionaryDataFinal['time']
 
 def saveCSVFile(dictionaryData, filePath, fileName):
-    #Raspberry Pi Name
-    #Mac Address
-    #Raspberry Pi Firmware/Other ID Info
-    #System Number
-    #Sensor Type
-    #Min
-    #Max
-    #Measure Interval
-    #Save File Duration
+    """CSV header info
+    Line 1 = Raspberry Pi Name / Mac Address / Raspberry Pi Firmware/Other ID Info
+    Line 2 = Sensor Type / Min / Max / Log Interval / Save File Duration
+    Line 3 = Date / Time / ADC 1 / ADC 2 / ADC 3 / ADC 4 / I2C1 / I2C2
+    """
     
-    #Date, Time, Data, Unit
-    
+    dataLine = getDataLine(dictionaryData)
     # CSV File already exists, APPEND
     if doesCSVFileExist(filePath, fileName):
         try:
             writeFile = open(filePath + fileName, "a")
+            print("Appending: " + dataLine)
+            writeFile.write(dataLine)
         except IOError as e:
-            output = check_output(["sudo", "chmod", "+777", filePath+fileName])
-            writeFile = open(filePath + fileName, "a")
-        dataLine = getDataLine(dictionaryData)
-        print("Appending: " + dataLine)
-        writeFile.write(dataLine)
-        writeFile.close()
-        # CSV File doesn't exist, CREATE NEW
+            print("Could not write to existing CSV file.")
+        finally:
+            writeFile.close()
+    # CSV File doesn't exist, CREATE NEW
     else:
-        print("Creating New File")
-        print(filePath + fileName)
-        writeFile = open(filePath + fileName, "w")
-        piinfo = dictionaryData['RP_Name'] + ",MAC Address:" + dictionaryData['RP_MacAddress'] + ",RP Version:" + dictionaryData['RP_Version'] + "\n"
-        systeminfo = "SensorType:" + dictionaryData['sensorType'] + ",Min:" + dictionaryData['min1'] + ",Max:" + \
-            dictionaryData['max1'] + ",Log Interval:" + dictionaryData['logIntervalMain'] + ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
-        dataheader = "Date,Time,ADC 1,,ADC 2,,ADC 3,,ADC 4,,I2C1,,I2C2" + "\n"
-        dataLine = getDataLine(dictionaryData)
-        writeFile.write(piinfo)
-        writeFile.write(systeminfo)
-        writeFile.write(dataheader)
-        writeFile.write(dataLine)
-        writeFile.close()
+        try:
+            print("Creating New File - "+filePath + fileName)
+            writeFile = open(filePath + fileName, "w")
+            piinfo = dictionaryData['RP_Name'] + ",MAC Address:" + dictionaryData['RP_MacAddress'] + ",RP Version:" + dictionaryData['RP_Version'] + "\n"
+            systeminfo = "SensorType:" + dictionaryData['sensorType'] + ",Min:" + dictionaryData['min1'] + ",Max:" + \
+                dictionaryData['max1'] + ",Log Interval:" + dictionaryData['logIntervalMain'] + ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
+            dataheader = "Date,Time,ADC 1,,ADC 2,,ADC 3,,ADC 4,,I2C1,,I2C2" + "\n"
+            writeFile.write(piinfo)
+            writeFile.write(systeminfo)
+            writeFile.write(dataheader)
+            writeFile.write(dataLine)
+        except IOError as e:
+            print("Could not create new CSV file.")
+        finally:
+            writeFile.close()
+            
     updateUploadedBool(dictionaryData)
 
 def checkDictionaryDataKeys(dictionaryData):
@@ -367,7 +355,6 @@ def getMAC(interface):
         str = open('/sys/class/net/' + interface + '/address').read()
     except:
         str = "00:00:00:00:00:00"
-    
     return str[0:17]
 
 def getRaspberryPiInfo():
@@ -375,14 +362,12 @@ def getRaspberryPiInfo():
     dictionary['RP_Name'] = "RPI_001"
     dictionary['RP_MacAddress'] = "MAC Address:" + getMAC("wlan0")
     dictionary['RP_Version'] = "RP Version:" + subprocess.check_output(['uname', '-a']).strip()
-    
     return dictionary
 
 def findInLine(line, findThis):
     if line.find(findThis) != -1:
         tempString = line[line.find(findThis) + len(findThis) + 2:].strip()
         #print(tempString)
-        
         return tempString
     else:
         return ""
@@ -479,23 +464,19 @@ def getBeginningOfWeek():
     #print(sunday)
     return sunday
 
-def main(logGenerationInterval):
-    filePath = "/mnt/EquipmentLogs/"
-    dictionaryData = getAllDictionaries()
-    checkDictionaryDataKeys(dictionaryData)
-    #for item in dictionaryData:
-    #    print(item)
-    #    print(item + " -> " + dictionaryData[item])
-    #exit()
-    editedTime = "0000" #dictionaryData['time'].replace(":","")
+def generateCSVname(dictionaryData,logGenerationInterval):
+    editedTime = "0000"
     if logGenerationInterval == "Daily":
         fileName = dictionaryData['system'].replace("System:","") + "_" + dictionaryData['date'].replace("-","") + "_" + editedTime[:4] + ".csv"
     elif logGenerationInterval == "Weekly":
         fileName = dictionaryData['system'].replace("System:","") + "_" + getBeginningOfWeek() + "_" + editedTime[:4] + ".csv"
-    #print(fileName)
-    #exit()
-    #filePath = "/mnt/BI_TEST/AndrewC/_DataLogger/_software/_TempCSV/"
-    #doesCSVFileExist(filePath, fileName)
+    return fileName
+
+def main(logGenerationInterval):
+    filePath = "/mnt/EquipmentLogs/"
+    dictionaryData = getAllDictionaries()
+    checkDictionaryDataKeys(dictionaryData)
+    fileName=generateCSVname(dictionaryData,logGenerationInterval)
     if canAccessServer(filePath):
         filePathWSubfolder = filePath + dictionaryData["system"] + "/"
         doesSubFolderExist(filePathWSubfolder)
@@ -503,11 +484,11 @@ def main(logGenerationInterval):
         tempDictionaryDate = dictionaryData['date'] + " " + dictionaryData['time']
         print("Last Uploaded Date: " + lastUploadDate)
         print("Dictionary Date: " + tempDictionaryDate)
-        if lastUploadDate != tempDictionaryDate:
-            print("Saving to database..")
-            saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
-        else:
-            print("Same Date: No Need to Upload")
+#        if lastUploadDate != tempDictionaryDate:
+#            print("Saving to database..")
+#            saveCSVFile(dictionaryData, filePathWSubfolder, fileName)
+#        else:
+#            print("Same Date: No Need to Upload")
     else:
         print("uploadCSV: Could not access network server")
         print("uploadCSV: Will not save (Temprorarily)")
