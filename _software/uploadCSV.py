@@ -208,7 +208,7 @@ def saveCSVFile(dictionaryData, filePath, fileName):
             piinfo = dictionaryData['RP_Name'] + ",MAC Address:" + dictionaryData['RP_MacAddress'] + ",RP Version:" + dictionaryData['RP_Version'] + "\n"
             systeminfo = "SensorType:" + dictionaryData['sensorType'] + ",Min:" + dictionaryData['min1'] + ",Max:" + \
                 dictionaryData['max1'] + ",Log Interval:" + dictionaryData['logIntervalMain'] + ",Save File Duration:" + dictionaryData['saveDuration'] + "\n"
-            dataheader = "Date,Time,ADC 1,,ADC 2,,ADC 3,,ADC 4,,I2C1,,I2C2" + "\n"
+            dataheader = "Date,Time,ADC 1,,ADC 2,,ADC 3,,ADC 4,,I2C 1,,I2C 2" + "\n"
             writeFile.write(piinfo)
             writeFile.write(systeminfo)
             writeFile.write(dataheader)
