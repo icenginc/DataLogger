@@ -51,7 +51,7 @@ Offset: 0.0
 LogInterval: 
 MinSetting: 
 MaxSetting: 
-LogFileChannelAssignment: 
+LogFileChannelAssignment: 3
 Enabled: No
 #End
 
@@ -79,7 +79,7 @@ Offset: 0.0
 LogInterval: 
 MinSetting: 
 MaxSetting: 
-LogFileChannelAssignment: 
+LogFileChannelAssignment: 5
 Enabled: No
 #End
 
