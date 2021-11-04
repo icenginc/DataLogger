@@ -16,7 +16,7 @@
 	
 		$output = shell_exec($command);
 
-		if (sizeof($output) > 0)
+		if($output > 0)# (sizeof($output) > 0)
 		{
 			echo($output);
 		}
