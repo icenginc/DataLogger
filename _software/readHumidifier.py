@@ -42,20 +42,6 @@ def readHum(channel, dictionaryData):
     temperature2Formatted = ""
     humidityFormatted = ""
     try:
-        #handle = pi.i2c_open(1, Hum_Address)
-        #time.sleep(.55)
-        #pi.i2c_write_device(handle, [0x2C,0x06])
-        #time.sleep(0.2)
-        #(count, data) = pi.i2c_read_device(handle, 6)
-        #time.sleep(0.2)
-        #pi.i2c_close(handle)
-        #time.sleep(0.1)
-        #pi.stop()
-        #print("Count: " + str(count))
-        #print(binascii.hexlify(data))
-        #tempString = binascii.hexlify(data)
-        #temperature = convertTemp(tempString[:4])
-        #humidity = convertTemp(tempString[6:10])
         output = check_output(["python", "/home/pi/Documents/DataLogger/_software/humidity.py"])
         temperature1 = float(output.splitlines()[0])
         temperature2 = float(output.splitlines()[1])
@@ -221,9 +207,12 @@ def main():
             elif args[2] == "1":
                 i2cMux.readI2CMux(1)
                 tempHum = readHum("6", dictionaryData)
-                insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-                insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
-                insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
+                if tempHum.split(":")[0] > 0 and tempHum.split(":")[1] > 0:
+                    insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
+                    insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
+                    insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
+                else:
+                    os.system("sudo pkill -9 -f main.py")
             else:
                 print("Invalid port to read humidity from.")
         else:
