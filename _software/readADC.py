@@ -188,25 +188,16 @@ def main():
     i2cMux.readI2CMux(1)
     dictionaryData = uploadCSV.getAllDictionaries()
     count=0
-    while(True):
-        if len(args) > 2:
-            table = args[1]
-            channel = args[2]
-            temperature = readADC(channel, dictionaryData)
-            tempFormatted = "{0:.2f}".format(temperature)
-            print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
-            # Insert data into database
-            #print("Inserting into database: " + tempFormatted + "for channel " + channel)
-            if(tempFormatted > 0):
-                insertIntoDatabase(channel, tempFormatted, table)
-                break
-            else:
-                if(count <5):
-                    print("Invalid temperature reading. Re-reading temperature (Attempt :"+str(count)+", Max: 5)")
-                    count=count+1
-                else:
-                    print("Max attemps reached. Exiting readADC main without measurement.")
-                    break
+    if len(args) > 2:
+        table = args[1]
+        channel = args[2]
+        temperature = readADC(channel, dictionaryData)
+        tempFormatted = "{0:.2f}".format(temperature)
+        print("ADC Reading, Channel #" + str(channel) + ": " + "\n" + tempFormatted)
+        # Insert data into database
+        #print("Inserting into database: " + tempFormatted + "for channel " + channel)
+        if(tempFormatted > 0):
+            insertIntoDatabase(channel, tempFormatted, table)
                     
     # If full day reached (12:00am), generate text file from database data and
     # upload to FTP (if file is uploaded daily)
