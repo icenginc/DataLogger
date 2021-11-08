@@ -98,8 +98,6 @@ def readHum_i2c(channel, dictionaryData):
         time.sleep(0.2)
         pi.i2c_close(handle)
         time.sleep(0.1)
-        if pi.connected:
-            pi.stop()
         print("Count: " + str(count))
         print(binascii.hexlify(data))
         tempString = binascii.hexlify(data)
@@ -132,6 +130,7 @@ def readHum_i2c(channel, dictionaryData):
     except Exception as e:
         print("readHumidifier.py:readHum(), Error Reading Humidifer I2C")
         print(e)
+    finally:
         if pi.connected:
             pi.stop()
     
