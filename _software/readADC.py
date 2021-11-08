@@ -82,11 +82,11 @@ def readADC(channel, dictionaryData):
     temp=0
     numcount=0
     try:
-        if pi.connected:
-            print("Pigpio readADC already connected.")
-    except:
-        pi = pigpio.pi()
-    try:
+        try:
+            if pi.connected:
+                print("Pigpio readADC already connected.")
+        except:
+            pi = pigpio.pi()
         handle = pi.i2c_open(1, adcAddress)
         time.sleep(.02)
         #print handle
@@ -120,8 +120,9 @@ def readADC(channel, dictionaryData):
         os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
     print("Adjusted Temperature: " + str(temperature) + "C")
-    if pi.connected:
-        pi.stop()
+    finally:
+        if pi.connected:
+            pi.stop()
     return temperature
 
 # For tempData Table
