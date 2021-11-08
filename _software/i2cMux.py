@@ -32,16 +32,16 @@ def readI2CMux(selectedPort):
         controlByte = 0x04
         if (int(selectedPort) == 1):
             #Selects ADC Chip
-            controlByte = 0x04 #0x01 RevB mux values
+            controlByte = 0x01 #0x04-RevA,0x01-RevB mux values
         elif (int(selectedPort) == 2):
             #Selects I2C (channel 1 - J5)
-            controlByte = 0x05 #0x02 RevB mux values
+            controlByte = 0x02 #0x05-RevA,0x02-RevB mux values
         elif (int(selectedPort) == 3):
             #Selects I2C (channel 2 - J6)
-            controlByte = 0x06 #0x04 RevB mux values
+            controlByte = 0x04 #0x06-RevA,0x04-RevB mux values
         elif (int(selectedPort) == 4):
             #Selects LCD Screen
-            controlByte = 0x07 #0x08 RevB mux values
+            controlByte = 0x08 #0x07-RevA,0x08-RevB mux values
         pi.i2c_write_byte(handle, controlByte)
         time.sleep(0.1)
         pi.i2c_close(handle)
