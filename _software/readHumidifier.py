@@ -33,15 +33,15 @@ def getChannelString(channel):
         return "I2C 2"
 
 def readHum(channel, dictionaryData):
-    try:
-        if pi.connected:
-            print("Pigpio readHum already connected.")
-    except:
-        pi = pigpio.pi()
     temperature1Formatted = ""
     temperature2Formatted = ""
     humidityFormatted = ""
     try:
+        try:
+            if pi.connected:
+                print("Pigpio readHum already connected.")
+        except:
+             pi = pigpio.pi()
         output = check_output(["python", "/home/pi/Documents/DataLogger/_software/humidity.py"])
         temperature1 = float(output.splitlines()[0])
         temperature2 = float(output.splitlines()[1])
@@ -82,14 +82,14 @@ def readHum(channel, dictionaryData):
     #return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
 
 def readHum_i2c(channel, dictionaryData):
-    try:
-        if pi.connected:
-            print("Pigpio readHumi2c already connected.")
-    except:
-        pi = pigpio.pi()
     temperatureFormatted = ""
     humidityFormatted = ""
     try:
+        try:
+            if pi.connected:
+                print("Pigpio readHumi2c already connected.")
+        except:
+            pi = pigpio.pi()
         handle = pi.i2c_open(1, Hum_Address)
         time.sleep(.55)
         pi.i2c_write_device(handle, [0x2C,0x06])
