@@ -119,10 +119,10 @@ def readADC(channel, dictionaryData):
         #os.system("sudo reboot")
         os.system("python /home/pi/Documents/DataLogger/_software/restartI2C.py")
     #print("END")
-    print("Adjusted Temperature: " + str(temperature) + "C")
     finally:
         if pi.connected:
             pi.stop()
+    print("Adjusted Temperature: " + str(temperature) + "C")
     return temperature
 
 # For tempData Table
