@@ -50,8 +50,9 @@ def readI2CMux(selectedPort):
     except Exception as e:
         print("Error Configuring I2C Mux")
         print(e)
-    if pi.connected:
-        pi.stop()
+    finally:
+        if pi.connected:
+            pi.stop()
 
 def main():
     """This is the main function"""
