@@ -199,12 +199,10 @@ def main():
         dictionaryData = uploadCSV.getAllDictionaries()
         if args[1] == "1" or args[1] == "2":
             print("Table: "+args[1]+" Port: "+args[2])
-            #I2C5
             if args[2] == "0":
                 i2cMux.readI2CMux(3)
                 tempHum = readHum_i2c("5", dictionaryData)
                 insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-            #ADC1 & ADC2
             elif args[2] == "1":
                 i2cMux.readI2CMux(1)
                 tempHum = readHum("6", dictionaryData)
