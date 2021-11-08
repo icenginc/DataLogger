@@ -206,10 +206,9 @@ def main():
             elif args[2] == "1":
                 i2cMux.readI2CMux(1)
                 tempHum = readHum("6", dictionaryData)
-                if tempHum.split(":")[0] > 0 and tempHum.split(":")[1] > 0:
-                    insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-                    insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
-                    insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
+                insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
+                insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
+                insertIntoDatabase("2", tempHum.split(":")[1], dictionaryData, table) #happens in readADC
                 else:
                     os.system("sudo pkill -9 -f main.py")
             else:
