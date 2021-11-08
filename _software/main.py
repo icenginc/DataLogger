@@ -94,7 +94,7 @@ Order of priority.
 I2C5 > I2C6 > ADC1&2 > ADC3 > ADC4 
 
 readhumidifer param:
-0-I2C5 - I2C Temp/Humidity
+0-I2C5 - Temp/Humidity
 1-I2C6
 2-ADC1 - Temp Only
 3-ADC1&2 - Temp/Humidity
