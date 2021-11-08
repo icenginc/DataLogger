@@ -208,19 +208,10 @@ def main():
                 i2cMux.readI2CMux(3)
                 tempHum = readHum_i2c("5", dictionaryData)
                 insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-            #ADC1
-            elif args[2] == "2":
-                i2cMux.readI2CMux(1)
-                tempHum = readHum("6", dictionaryData, False)
-                if tempHum.split(":")[0] > 0:
-                    insertIntoDatabase("6", tempHum.split(":")[0] + ":" + "0", dictionaryData, table)
-                    insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
-                else:
-                    os.system("sudo pkill -9 -f main.py")
             #ADC1 & ADC2
-            elif args[2] == "3":
+            elif args[2] == "1":
                 i2cMux.readI2CMux(1)
-                tempHum = readHum("6", dictionaryData, True)
+                tempHum = readHum("6", dictionaryData)
                 if tempHum.split(":")[0] > 0 and tempHum.split(":")[1] > 0:
                     insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
                     insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
