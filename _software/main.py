@@ -93,13 +93,6 @@ def action_button3(empty):
 Order of priority.
 I2C5 > I2C6 > ADC1&2 > ADC3 > ADC4 
 
-readhumidifer param:
-0-I2C5 - Temp/Humidity
-1-I2C6
-2-ADC1 - Temp Only
-3-ADC1&2 - Temp/Humidity
-4-ADC3
-5-ADC4
 
 I2C6, ADC3, ADC4 have not been programmed yet. 10/4/21
 
@@ -112,13 +105,9 @@ def gettempdata(dictionaryData, inputno):
     if dictionaryData['enabled5'] == "Yes":
         print("I2C5-Temp/Humidity Enabled.")
         os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 0")
-    elif dictionaryData['enabled1'] == "Yes":
-        if dictionaryData['enabled2'] == "Yes":
-            print("ADC1&ADC2-Temp/Humidity Enabled")
-            os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 3")
-        else:
-            print("ADC1-Temperature only")
-            os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 2")
+    elif dictionaryData['enabled1'] == "Yes" and dictionaryData['enabled2'] == "Yes":
+        print("ADC1&ADC2-Temp/Humidity Enabled")
+        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
         
 #------------------------------------------------------------------------------------------Others
 def getIPAddress():
