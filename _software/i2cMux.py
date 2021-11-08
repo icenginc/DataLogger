@@ -22,11 +22,11 @@ def readI2CMux(selectedPort):
     """This function takes the selected Port and sends a configuratio byte
     to the I2C Mux"""
     try:
-        if pi.connected:
-            print("Pigpio i2cMux already connected.")
-    except:
-        pi = pigpio.pi()
-    try:
+        try:
+            if pi.connected:
+                print("Pigpio i2cMux already connected.")
+        except:
+            pi = pigpio.pi()
         handle = pi.i2c_open(1, I2C_MuxAddress)
         time.sleep(.2)
         controlByte = 0x04
