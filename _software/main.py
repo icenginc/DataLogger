@@ -102,7 +102,7 @@ def gettempdata(dictionaryData, inputno):
             print("ADC Channel #" + str(x+1) + " Enabled")
             #os.system("python /home/pi/Documents/DataLogger/_software/readADC.py "+str(inputno)+" "+ str(x+1))
     if dictionaryData['enabled5'] == "Yes":
-        print("I2C Temperature Enabled.")
+        print("I2C Temperature Enabled")
         os.system("sudo python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 0")
     elif dictionaryData['enabled1'] == "Yes" and dictionaryData['enabled2'] == "Yes":
         print("Humidity Detection Enabled")
