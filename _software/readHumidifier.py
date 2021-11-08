@@ -32,7 +32,7 @@ def getChannelString(channel):
     elif channel == "6":
         return "I2C 2"
 
-def readHum(channel, dictionaryData, humidity):
+def readHum(channel, dictionaryData):
     try:
         if pi.connected:
             print("Pigpio readHum already connected.")
@@ -69,12 +69,8 @@ def readHum(channel, dictionaryData, humidity):
         #print("{0:.2f}".format(temperature) + "C")
         #print("{0:.2f}".format(humidity) + "%")
         temperature1Formatted = "{0:.4f}".format(temperature1)
-        if humidity:
-            temperature2Formatted = "{0:.4f}".format(temperature2)
-            humidityFormatted = "{0:.4f}".format(humidity)
-        else:
-            temperature2Formatted = 0
-            humidityFormatted = 0
+        temperature2Formatted = "{0:.4f}".format(temperature2)
+        humidityFormatted = "{0:.4f}".format(humidity)
         return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
     except Exception as e:
         print("readHumidifier.py:readHum(), Error Reading Humidifer ADC")
