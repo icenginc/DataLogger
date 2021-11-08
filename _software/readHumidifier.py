@@ -69,9 +69,10 @@ def readHum(channel, dictionaryData, humidity):
         #print("{0:.2f}".format(temperature) + "C")
         #print("{0:.2f}".format(humidity) + "%")
         temperature1Formatted = "{0:.4f}".format(temperature1)
-        temperature2Formatted = "{0:.4f}".format(temperature2)
-        humidityFormatted = "{0:.4f}".format(humidity)
-        if humidity==False:
+        if humidity:
+            temperature2Formatted = "{0:.4f}".format(temperature2)
+            humidityFormatted = "{0:.4f}".format(humidity)
+        else:
             temperature2Formatted = 0
             humidityFormatted = 0
         return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
