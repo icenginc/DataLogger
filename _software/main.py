@@ -104,9 +104,13 @@ def gettempdata(dictionaryData, inputno):
     if dictionaryData['enabled5'] == "Yes":
         print("I2C Temperature Enabled.")
         os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 0")
-    elif dictionaryData['enabled1'] == "Yes" and dictionaryData['enabled2'] == "Yes":
-        print("Humidity Detection Enabled")
-        os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
+    elif dictionaryData['enabled1'] == "Yes":
+        if dictionaryData['enabled2'] == "Yes":
+            print("Humidity Detection Enabled")
+            os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
+        else:
+            print("Humidity not enabled")
+            os.system("python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
         
 #------------------------------------------------------------------------------------------Others
 def getIPAddress():
