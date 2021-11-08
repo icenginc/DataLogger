@@ -32,7 +32,7 @@ def getChannelString(channel):
     elif channel == "6":
         return "I2C 2"
 
-def readHum(channel, dictionaryData):
+def readHum(channel, dictionaryData, humidity):
     try:
         if pi.connected:
             print("Pigpio readHum already connected.")
@@ -71,12 +71,14 @@ def readHum(channel, dictionaryData):
         temperature1Formatted = "{0:.4f}".format(temperature1)
         temperature2Formatted = "{0:.4f}".format(temperature2)
         humidityFormatted = "{0:.4f}".format(humidity)
-        if pi.connected:
-            pi.stop()
+        if humidity==False:
+            temperature2Formatted = 0
+            humidityFormatted = 0
         return temperature1Formatted + ":" + temperature2Formatted + ":" + humidityFormatted 
     except Exception as e:
         print("readHumidifier.py:readHum(), Error Reading Humidifer ADC")
         print(e)
+    finally:
         if pi.connected:
             pi.stop()
     #return humidityFormatted #save humidity into channel 5 in database
@@ -200,13 +202,24 @@ def main():
         dictionaryData = uploadCSV.getAllDictionaries()
         if args[1] == "1" or args[1] == "2":
             print("Table: "+args[1]+" Port: "+args[2])
+            #I2C5
             if args[2] == "0":
                 i2cMux.readI2CMux(3)
                 tempHum = readHum_i2c("5", dictionaryData)
                 insertIntoDatabase("5", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
-            elif args[2] == "1":
+            #ADC1
+            elif args[2] == "2":
                 i2cMux.readI2CMux(1)
-                tempHum = readHum("6", dictionaryData)
+                tempHum = readHum("6", dictionaryData, False)
+                if tempHum.split(":")[0] > 0:
+                    insertIntoDatabase("6", tempHum.split(":")[0] + ":" + "0", dictionaryData, table)
+                    insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
+                else:
+                    os.system("sudo pkill -9 -f main.py")
+            #ADC1 & ADC2
+            elif args[2] == "3":
+                i2cMux.readI2CMux(1)
+                tempHum = readHum("6", dictionaryData, True)
                 if tempHum.split(":")[0] > 0 and tempHum.split(":")[1] > 0:
                     insertIntoDatabase("6", tempHum.split(":")[0] + ":" + tempHum.split(":")[2], dictionaryData, table)
                     insertIntoDatabase("1", tempHum.split(":")[0], dictionaryData, table) #happens in readADC
