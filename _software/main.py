@@ -209,7 +209,7 @@ def main():
         timer5s += 1.0
         timer += 1.0
         timeNow = datetime.datetime.now()
-        checkGPIOButtons()
+        #checkGPIOButtons()
         if (timeNow - startTimer5s).total_seconds() >= 5:
             print(str((timeNow - startTimer5s).total_seconds()) + " Seconds")
             #print(startTimer5s)
