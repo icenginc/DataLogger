@@ -9,10 +9,12 @@ def checkProcess(processName):
     
 processName1 = "sudo python main.py"
 processName2 = "python /home/pi/Documents/DataLogger/_software/main.py"
+processName3 = "sudo python /home/pi/Documents/DataLogger/_software/main.py"
 check1 = checkProcess(processName1)
 check2 = checkProcess(processName2)
+check3 = checkProcess(processName3)
 
-if (check1 | check2):
+if (check1 | check2 | check3):
     print("Running")
 else:
     print("Stopped")
