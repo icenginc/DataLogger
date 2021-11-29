@@ -104,8 +104,11 @@ def gettempdata(dictionaryData, inputno):
     if dictionaryData['enabled5'] == "Yes":
         print("I2C Temperature Enabled")
         os.system("sudo python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 0")
-    elif dictionaryData['enabled1'] == "Yes" and dictionaryData['enabled2'] == "Yes":
-        print("Humidity Detection Enabled")
+    elif dictionaryData['enabled1'] == "Yes":
+        if dictionaryData['enabled2'] == "Yes":
+            print("Humidity Detection Enabled")
+        else:
+            print("Temperature Only")
         os.system("sudo python /home/pi/Documents/DataLogger/_software/readHumidifier.py "+str(inputno)+" 1")
         
 #------------------------------------------------------------------------------------------Others
@@ -230,8 +233,11 @@ def main():
                 time.sleep(0.1)
                 if dictionaryData['enabled5'] == "Yes":
                     lcdtest.repeatThis(5, dictionaryData) #dictionary data -> from library I2C
-                else:
-                    lcdtest.repeatThis(6, dictionaryData) #dictionary data -> from library ADC
+                elif dictionaryData['enabled1'] == "Yes":
+                    if dictionaryData['enabled2'] == "Yes":
+                        lcdtest.repeatThis(6, dictionaryData) #dictionary data -> from library ADC
+                    else:
+                        lcdtest.repeatThis(6, dictionaryData, True) #dictionary data -> from library ADC
                 #print dictionaryData
                 lcdtest.writeText2(ipAddress)
                 print ("-_-_-_-_-_-_-_-_-_-_-_-_-_-")
