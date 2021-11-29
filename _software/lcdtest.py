@@ -117,7 +117,7 @@ def readFromDatabase(channel):
             con.close()
     return data
 
-def repeatThis(channel, dictionaryData):
+def repeatThis(channel, dictionaryData,temponly=False):
     data = ""
     minD = ""
     maxD = ""
@@ -130,7 +130,10 @@ def repeatThis(channel, dictionaryData):
         tempH = temp2[1]
         tempUnitT = "C"
         tempUnitH = "%H"
-        tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT + ", " + str("{0:.1f}".format(float(tempH))) + tempUnitH
+        if temponly:
+            tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT
+        else:
+            tempFinal = str("{0:.1f}".format(float(tempT))) + tempUnitT + ", " + str("{0:.1f}".format(float(tempH))) + tempUnitH
         print(tempFinal)
         writeText(tempFinal)
     else:
