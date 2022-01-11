@@ -5,6 +5,7 @@ import glob
 from datetime import datetime, timedelta
 
 dbpath = "/mnt/EquipmentLogs/"
+loggerpath = dbpath+"RPi_Logger/"
 
 def doesSubFolderExist(dbpathfull):
     value = False
@@ -30,11 +31,24 @@ def ipfileexists(dbpathfull,dbpathfullip,ipaddress,systemName):
     except:
         print("Could not update IP text.")
 
+def datafilewrite(dbpathfull,dbpathfulltxt,dataline):
+    try:
+        print("Updating master pi text.")
+        z=open(dbpathfulltxt, "w+")
+        z.write("Running,"+dataline)
+    except:
+        print("Could not update master pi text.")
 
 def ippost(ipaddress, systemName):
     dbpathfull=dbpath+systemName
     dbpathfullip=dbpathfull+"/"+systemName+"-IP.txt"
-
     if canAccessServer(dbpath):
         doesSubFolderExist(dbpathfull)
         ipfileexists(dbpathfull,dbpathfullip,ipaddress,systemName)
+
+def datapost(dataline, systemName):
+    dbpathfull=loggerpath+systemName
+    dbpathfulltxt=dbpathfull+".txt"
+    if canAccessServer(loggerpath):
+        #doesSubFolderExist(dbpathfull)
+        datafilewrite(dbpathfull,dbpathfulltxt,dataline)
