@@ -4,6 +4,7 @@ import subprocess
 from subprocess import check_output
 import glob
 from datetime import datetime, timedelta
+import postdata
 
 lastUploadDate = ""
 filePathLocal = "/home/pi/Documents/DataLogger/_logs/"
@@ -196,6 +197,7 @@ def saveCSVFile(dictionaryData, filePath, fileName):
             writeFile = open(filePath + fileName, "a")
             print("Appending: " + dataLine)
             writeFile.write(dataLine)
+            postdata.datapost(dataLine,dictionaryData['RP_Name'])
         except IOError as e:
             print("Could not write to existing CSV file.")
         finally:
