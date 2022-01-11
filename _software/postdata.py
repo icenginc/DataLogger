@@ -52,3 +52,17 @@ def datapost(dataline, systemName):
     if canAccessServer(loggerpath):
         #doesSubFolderExist(dbpathfull)
         datafilewrite(dbpathfull,dbpathfulltxt,dataline)
+
+def updatestop(systemName):
+    dbpathfull=loggerpath+systemName
+    dbpathfulltxt=dbpathfull+".txt"
+    if canAccessServer(loggerpath):
+        #-----Open to read
+        z=open(dbpathfulltxt, "r+")
+        content=z.readline().split(',')
+        content[0]="Stopped"
+        z.close()
+        #-----Open to write
+        z=open(dbpathfulltxt, "w+")
+        z.write(",".join(content))
+        z.close()
